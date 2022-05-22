@@ -1,0 +1,8 @@
+{
+  "name": "Pomidoro",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue",
+  "id": "807f4a0e"
+}
