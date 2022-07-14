@@ -1,16 +1,17 @@
-import { createRouter, createWebHistory } from "@ionic/vue-router";
-import { RouteRecordRaw } from "vue-router";
-import VHome from "@/views/VHome.vue";
+import { createRouter, createWebHistory } from '@ionic/vue-router';
+import { RouteRecordRaw } from 'vue-router';
+import VHome from '@/views/VHome.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
+    path: '/',
     component: VHome,
   },
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  // @ts-ignore
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 
