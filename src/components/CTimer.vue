@@ -1,20 +1,22 @@
 <template>
   <div class="c-timer" @click="onTimerClick">
-    <span class="c-timer__time">{{remainingTime}}</span>
+    <span class="c-timer__time">{{ remainingTime }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch } from 'vue';
+import { useStore } from '@/stores/timer';
 const isRunning = ref(false);
 const remainingTime = ref('08:45');
+const store = useStore();
 
 const onTimerClick = () => (isRunning.value = !isRunning.value);
 
 watch(isRunning, () => {
   if (isRunning.value) {
-    console.log("its running");
-  }
+    console.log('its running');
+  } else console.log('its not running');
 });
 </script>
 
