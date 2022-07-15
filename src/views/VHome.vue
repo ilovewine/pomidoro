@@ -1,7 +1,7 @@
 <template>
   <ion-page>
     <ion-content class="ion-padding">
-      <c-timer />
+      <c-clock />
     </ion-content>
 
     <ion-footer>

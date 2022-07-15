@@ -1,6 +1,6 @@
 <template>
-  <div class="c-timer" @click="onTimerClick">
-    <span class="c-timer__time">{{ remainingTime }}</span>
+  <div class="c-clock" @click="onTimerClick">
+    <span class="c-clock__time">{{ remainingTime }}</span>
   </div>
 </template>
 
@@ -21,7 +21,7 @@ watch(isRunning, () => {
 </script>
 
 <style scoped lang="scss">
-.c-timer {
+.c-clock {
   width: 100%;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
