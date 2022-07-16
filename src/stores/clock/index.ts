@@ -14,13 +14,11 @@ export const useStore = defineStore('clock', {
   }),
   getters: {
     getTime: (state) => state.time.readableTime,
+    getClockState: (state) => state.time.state,
   },
   actions: {
     setTime(minutes: number, seconds: number) {
       this.time = new Clock(minutes, seconds);
-    },
-    setState(state: ClockState) {
-      this.time.state = state;
     },
   },
 });

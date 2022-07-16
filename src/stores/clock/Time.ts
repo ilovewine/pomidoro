@@ -9,6 +9,6 @@ export default class Time {
   }
 
   get readableTime() {
-    return `${this.minutes}:${this.seconds}`;
+    return `${this.minutes}:${this.seconds < 10 ? '0' + this.seconds : this.seconds }`;
   }
 }

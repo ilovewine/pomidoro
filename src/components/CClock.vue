@@ -1,28 +1,32 @@
 <template>
   <div class="c-clock" @click="onTimerClick">
-    <span class="c-clock__time">{{ remainingTime }}</span>
+    <span class="c-clock__time">{{ store.time.readableTime }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-import { useStore } from '@/stores/timer';
-const isRunning = ref(false);
-const remainingTime = ref('08:45');
+import { useStore } from '@/stores/clock';
+import ClockState from '@/types/stores/clock/ClockState.type';
 const store = useStore();
 
-const onTimerClick = () => (isRunning.value = !isRunning.value);
-
-watch(isRunning, () => {
-  if (isRunning.value) {
-    console.log('its running');
-  } else console.log('its not running');
-});
+const onTimerClick = () => {
+  switch (store.getClockState) {
+    case ClockState.PAUSED:
+    case ClockState.STOPPED:
+      store.time.start();
+      break;
+    case ClockState.RUNNING:
+      store.time.pause();
+      break;
+  }
+};
 </script>
 
 <style scoped lang="scss">
 .c-clock {
   width: 100%;
+  max-width: 30rem;
+  cursor: pointer;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   background-color: rgba(#eb2727, 0.6);

@@ -20,7 +20,7 @@ import {
   IonToolbar,
   IonTitle,
 } from "@ionic/vue";
-import CTimer from "@/components/CTimer.vue";
+import CClock from "@/components/CClock.vue";
 </script>
 
 <style scoped lang="scss"></style>
