@@ -1,6 +1,8 @@
 <template>
   <div class="c-clock" @click="onTimerClick">
-    <span class="c-clock__time">{{ store.time.readableTime }}</span>
+    <ion-text color="primary"
+      ><h2 class="c-clock__time">{{ store.time.readableTime }}</h2></ion-text
+    >
   </div>
 </template>
 
@@ -48,6 +50,7 @@ const onTimerClick = () => {
     transform: translate(-50%, -50%);
     z-index: 1;
     font-size: 5rem;
+    margin: 0;
   }
 }
 </style>

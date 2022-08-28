@@ -1,7 +1,19 @@
 <template>
   <ion-page>
     <ion-content class="ion-padding">
-      <c-clock />
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <c-clock />
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col
+            ><c-play-pause-button>Play/pause</c-play-pause-button></ion-col
+          >
+          <ion-col><c-stop-button>Stop</c-stop-button></ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-content>
 
     <ion-footer>
@@ -19,8 +31,13 @@ import {
   IonFooter,
   IonToolbar,
   IonTitle,
-} from "@ionic/vue";
-import CClock from "@/components/CClock.vue";
+  IonGrid,
+  IonRow,
+  IonCol,
+} from '@ionic/vue';
+import CClock from '@/components/CClock.vue';
+import CPlayPauseButton from '@/components/controls/CPlayPauseButton.vue';
+import CStopButton from '@/components/controls/CStopButton.vue';
 </script>
 
 <style scoped lang="scss"></style>
