@@ -1,10 +1,8 @@
 <template>
-    <c-control-button icon="stop-outline"></c-control-button>
+  <reset-icon fill="#fff" />
 </template>
 
 <script setup lang="ts">
-import CControlButton from './CControlButton.vue';
+import ResetIcon from '@/resources/svg/ResetIcon.vue';
 </script>
 
-<style scoped lang="scss">
-</style>

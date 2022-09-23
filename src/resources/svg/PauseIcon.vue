@@ -1,0 +1,14 @@
+<template>
+  <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48">
+    <path d="M28.25 38V10H36v28ZM12 38V10h7.75v28Z" :fill="fill" />
+  </svg>
+</template>
+
+<script setup lang="ts">
+  defineProps({
+  fill: {
+    type: String,
+    default: '#000',
+  },
+});
+</script>

@@ -1,6 +1,6 @@
 <template>
   <div class="c-control-button">
-    <ion-icon :name="icon"></ion-icon>
+    <ion-icon :name="`${icon}`"></ion-icon>
   </div>
 </template>
 
