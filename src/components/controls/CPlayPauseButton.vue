@@ -1,5 +1,5 @@
 <template>
-  <component :is="icon" fill="#fff" />
+  <component :is="icon" fill="var(--ion-color-step-50)" />
 </template>
 
 <script setup lang="ts">
@@ -12,7 +12,6 @@ import PauseIcon from '@/resources/svg/PauseIcon.vue';
 const store = useStore();
 
 const icon = computed(() =>
-  store.getClockState === ClockState.RUNNING ? PauseIcon : PlayIcon
-);
+  store.getClockState === ClockState.RUNNING ? PauseIcon : PlayIcon,
+); 
 </script>
-

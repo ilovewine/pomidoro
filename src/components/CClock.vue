@@ -1,8 +1,8 @@
 <template>
   <div class="c-clock" @click="onTimerClick">
-    <ion-text color="primary"
-      ><h2 class="c-clock__time">{{ store.time.readableTime }}</h2></ion-text
-    >
+    <ion-text color="primary">
+      <h2 class="c-clock__time">{{ store.time.readableTime }}</h2>
+    </ion-text>
   </div>
 </template>
 
