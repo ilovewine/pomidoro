@@ -1,24 +1,31 @@
 import { defineStore } from 'pinia';
-import ClockState from '@/types/stores/clock/ClockState.type';
 import State from '@/types/stores/clock/Store.interface';
 import Clock from './Clock';
 import Time from './Time';
 
+const DEFAULT_DURATION = {
+  BREAK: () => new Time(5, 0),
+  BASE: () => new Time(25, 0),
+};
+
 export const useStore = defineStore('clock', {
   state: (): State => ({
-    time: new Clock(25, 0),
+    clock: new Clock(DEFAULT_DURATION.BASE()),
     durationSettings: {
-      break: new Time(5, 0),
-      base: new Time(25, 0),
+      break: DEFAULT_DURATION.BREAK,
+      base: DEFAULT_DURATION.BASE,
     },
   }),
   getters: {
-    getTime: (state) => state.time.readableTime,
-    getClockState: (state) => state.time.state,
+    getTime: (state) => state.clock.readableTime,
+    getClockState: (state) => state.clock.state,
   },
   actions: {
-    setTime(minutes: number, seconds: number) {
-      this.time = new Clock(minutes, seconds);
+    setClock(time: Time) {
+      this.clock = new Clock(time);
+    },
+    restartClock() {
+      this.clock = new Clock(this.durationSettings.base());
     },
   },
 });

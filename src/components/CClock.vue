@@ -1,34 +1,20 @@
 <template>
-  <div class="c-clock" @click="onTimerClick">
+  <div class="c-clock">
     <ion-text color="primary">
-      <h2 class="c-clock__time">{{ store.time.readableTime }}</h2>
+      <h2 class="c-clock__time">{{ store.clock.readableTime }}</h2>
     </ion-text>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useStore } from '@/stores/clock';
-import ClockState from '@/types/stores/clock/ClockState.type';
 const store = useStore();
-
-const onTimerClick = () => {
-  switch (store.getClockState) {
-    case ClockState.PAUSED:
-    case ClockState.STOPPED:
-      store.time.start();
-      break;
-    case ClockState.RUNNING:
-      store.time.pause();
-      break;
-  }
-};
 </script>
 
 <style scoped lang="scss">
 .c-clock {
   width: 100%;
   max-width: 30rem;
-  cursor: pointer;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   background-color: rgba(#eb2727, 0.6);
