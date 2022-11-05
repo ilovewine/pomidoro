@@ -1,8 +1,6 @@
 <template>
   <div class="c-clock">
-    <ion-text color="primary">
-      <h2 class="c-clock__time">{{ store.clock.readableTime }}</h2>
-    </ion-text>
+    <h2 class="c-clock__time">{{ store.clock.readableTime }}</h2>
   </div>
 </template>
 
@@ -35,7 +33,7 @@ const store = useStore();
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
-    font-size: 5rem;
+    font-size: 7rem;
     margin: 0;
   }
 }
