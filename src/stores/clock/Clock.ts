@@ -1,23 +1,16 @@
 import ClockState from '@/types/stores/clock/ClockState.type';
-import Time from './Time';
+import Time from '@/stores/clock/Time';
 
 const MILLISECONDS_INTERVAL_DURATION = 10;
 
 export default class Clock {
   private interval: number = 0;
-  public state: ClockState;
+  public state: ClockState = ClockState.STOPPED;
   private milliseconds: number = 0;
-  constructor(protected time: Time) {
-    this.state = ClockState.STOPPED;
-  }
 
-  stop() {
-    clearInterval(this.interval);
-    this.state = ClockState.STOPPED;
-  }
-
-  start() {
-    this.state = ClockState.RUNNING;
+  constructor(protected time: Time) {}
+  
+  clockTick() {
     this.interval = setInterval(() => {
       this.milliseconds += MILLISECONDS_INTERVAL_DURATION;
       if (this.milliseconds === 1000) {
@@ -33,9 +26,19 @@ export default class Clock {
     }, MILLISECONDS_INTERVAL_DURATION);
   }
 
-  pause() {
+  stop() {
+    this.state = ClockState.STOPPED;
     clearInterval(this.interval);
+  }
+
+  start() {
+    this.state = ClockState.RUNNING;
+    this.clockTick();
+  }
+
+  pause() {
     this.state = ClockState.PAUSED;
+    clearInterval(this.interval);
   }
 
   get readableTime() {
