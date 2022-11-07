@@ -10,7 +10,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/settings',
-    components: VSettings,
+    component: VSettings,
   },
 ];
 
