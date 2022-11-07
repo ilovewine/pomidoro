@@ -13,21 +13,20 @@
         </ion-row>
       </ion-grid>
     </ion-content>
-
-    <ion-footer>
-      <ion-toolbar>
-        <ion-title>Footer</ion-title>
-      </ion-toolbar>
-    </ion-footer>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonContent, IonFooter, IonToolbar, IonTitle, IonGrid, IonRow, IonCol } from '@ionic/vue';
+import {
+  IonPage,
+  IonContent,
+  IonGrid,
+  IonRow,
+  IonCol,
+} from '@ionic/vue';
 import CClock from '@/components/CClock.vue';
 import CPlayPauseButton from '@/components/controls/CPlayPauseButton.vue';
 import CStopButton from '@/components/controls/CStopButton.vue';
-import CControlButton from '@/components/controls/CControlButton.vue';
 </script>
 
 <style scoped lang="scss">
@@ -41,6 +40,8 @@ import CControlButton from '@/components/controls/CControlButton.vue';
   }
   &__clock {
     margin-bottom: 5rem;
+    margin-left: auto;
+    margin-right: auto;
   }
   &__clock-controller {
     display: flex;

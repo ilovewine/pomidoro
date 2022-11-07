@@ -1,13 +1,12 @@
 <template>
-  <c-icon @click="onResetButtonClick">
-    <reset-icon fill="var(--ion-color-step-50)" />
-  </c-icon>
+  <c-icon :icon="refreshOutline" @click="onResetButtonClick" />
 </template>
 
 <script setup lang="ts">
-import ResetIcon from '@/resources/svg/ResetIcon.vue';
 import CIcon from '@/components/controls/CIcon.vue';
 import { useStore } from '@/stores/clock';
+import { refreshOutline } from 'ionicons/icons';
+
 const store = useStore();
 
 const onResetButtonClick = () => {
