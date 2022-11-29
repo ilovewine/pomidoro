@@ -4,12 +4,12 @@ import Time from '@/stores/clock/Time';
 const MILLISECONDS_INTERVAL_DURATION = 10;
 
 export default class Clock {
-  private interval: number = 0;
+  private interval = 0;
   public state: ClockState = ClockState.STOPPED;
-  private milliseconds: number = 0;
+  private milliseconds = 0;
 
   constructor(protected time: Time) {}
-  
+
   clockTick() {
     this.interval = setInterval(() => {
       this.milliseconds += MILLISECONDS_INTERVAL_DURATION;

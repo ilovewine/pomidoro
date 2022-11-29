@@ -5,8 +5,12 @@ import VSettings from '@/views/VSettings.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
+    path: '/home',
     component: VHome,
+  },
+  {
+    path: '/',
+    redirect: '/home',
   },
   {
     path: '/settings',

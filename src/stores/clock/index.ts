@@ -12,8 +12,8 @@ export const useStore = defineStore('clock', {
   state: (): State => ({
     clock: new Clock(DEFAULT_DURATION.BASE()),
     durationSettings: {
-      break: DEFAULT_DURATION.BREAK,
-      base: DEFAULT_DURATION.BASE,
+      break: DEFAULT_DURATION.BREAK(),
+      base: DEFAULT_DURATION.BASE(),
     },
   }),
   getters: {
@@ -25,7 +25,11 @@ export const useStore = defineStore('clock', {
       this.clock = new Clock(time);
     },
     restartClock() {
-      this.clock = new Clock(this.durationSettings.base());
+      this.clock = new Clock(this.durationSettings.base);
+    },
+    setDefaultDurationSettings(settings: Partial<{ break: Time; base: Time }>) {
+      if (settings.break) this.durationSettings.break = settings.break;
+      if (settings.base) this.durationSettings.base = settings.base;
     },
   },
 });

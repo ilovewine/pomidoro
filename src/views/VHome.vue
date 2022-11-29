@@ -17,13 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  IonPage,
-  IonContent,
-  IonGrid,
-  IonRow,
-  IonCol,
-} from '@ionic/vue';
+import { IonPage, IonContent, IonGrid, IonRow, IonCol } from '@ionic/vue';
 import CClock from '@/components/CClock.vue';
 import CPlayPauseButton from '@/components/controls/CPlayPauseButton.vue';
 import CStopButton from '@/components/controls/CStopButton.vue';

@@ -6,11 +6,10 @@
 
 <script setup lang="ts">
 import { IonIcon } from '@ionic/vue';
-import { PropType } from 'vue';
 
 defineProps({
   icon: {
-    type: Object as PropType<StringConstructor>,
+    type: String,
     required: true,
   },
 });

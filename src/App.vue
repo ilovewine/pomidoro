@@ -3,7 +3,7 @@
     <ion-tabs>
       <ion-router-outlet />
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="clock" href="/">
+        <ion-tab-button tab="clock" href="/home">
           <ion-icon :icon="timeOutline"></ion-icon>
           <ion-label>Clock</ion-label>
         </ion-tab-button>
