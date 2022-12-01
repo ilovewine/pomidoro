@@ -15,10 +15,10 @@
                 <ion-toggle color="primary" />
               </c-setting-block>
               <c-setting-block label="Work Timer">
-                <ion-button color="primary">25 : 00</ion-button>
+                <c-time-select :timer="workTimer" />
               </c-setting-block>
               <c-setting-block label="Break Timer">
-                <ion-button color="primary">5 : 00</ion-button>
+                <c-time-select :timer="breakTimer" />
               </c-setting-block>
             </ion-list>
           </ion-col>
@@ -40,15 +40,14 @@ import {
   IonCol,
   IonList,
   IonToggle,
-  IonInput,
-  IonButton,
 } from '@ionic/vue';
 import CSettingBlock from '@/components/CSettingBlock.vue';
 import { useStore } from '@/stores/clock';
+import { computed } from '@vue/reactivity';
+import CTimeSelect from '@/components/CTimeSelect.vue';
 
 const store = useStore();
 
-const onTimeButtonClick = () => {
-  console.log('time clicked');
-};
+const workTimer = computed(() => store.durationSettings.base);
+const breakTimer = computed(() => store.durationSettings.break);
 </script>

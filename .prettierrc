@@ -5,5 +5,7 @@
   "trailingComma": "all",
   "printWidth": 120,
   "htmlWhitespaceSensitivity": "ignore",
-  "bracketSameLine": true
+  "bracketSameLine": true,
+  "arrowParens": "avoid",
+  "tabWidth": 2
 }

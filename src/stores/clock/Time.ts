@@ -1,14 +1,21 @@
+export enum TimeType {
+  BASE = 'base',
+  BREAK = 'break',
+}
+
+const convertToTimeElement = (time: number): string => time.toString().padStart(2, '0');
+
 export default class Time {
   static SECONDS_IN_ONE_MINUTE = 60;
-  static validSeconds = (seconds: number) =>
+  static validateSeconds = (seconds: number) =>
     seconds >= Time.SECONDS_IN_ONE_MINUTE ? Time.SECONDS_IN_ONE_MINUTE - 1 : seconds;
   static now = () => new Date().getTime();
 
-  constructor(public minutes: number, public seconds: number) {
-    this.seconds = Time.validSeconds(seconds);
+  constructor(public minutes: number, public seconds: number, public type: TimeType) {
+    this.seconds = Time.validateSeconds(seconds);
   }
 
   get readableTime() {
-    return `${this.minutes}:${this.seconds < 10 ? '0' + this.seconds : this.seconds}`;
+    return `${convertToTimeElement(this.minutes)}:${convertToTimeElement(this.seconds)}`;
   }
 }
