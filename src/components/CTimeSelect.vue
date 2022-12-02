@@ -11,7 +11,7 @@ import {
   IonButton,
   pickerController
 } from '@ionic/vue';
-import { PropType } from 'vue';
+import { PropType, computed } from 'vue';
 
 const props = defineProps({
   timer: {
@@ -22,25 +22,20 @@ const props = defineProps({
 
 
 const store = useStore();
+const time = computed(() => store.clock.time);
 
-const createOptionsColumn = (maxValue: number) => Array.from({ length: maxValue }, (_, i) => ({
+const createOptionsColumn = (atom: 'minutes' | 'seconds') => Array.from({ length: atom === 'minutes' ? 100 : Time.SECONDS_IN_ONE_MINUTE }, (_, i) => ({
   text: i.toString().padStart(2, '0'),
-  value: i
+  value: i,
 }));
 
 const setTime = async () => {
-  console.log('time clicked');
   const picker = await pickerController.create({
-    columns: [
-      {
-        name: 'minutes',
-        options: createOptionsColumn(100)
-      },
-      {
-        name: 'seconds',
-        options: createOptionsColumn(Time.SECONDS_IN_ONE_MINUTE)
-      }
-    ],
+    columns: ['minutes', 'seconds'].map((clockAtom) => ({
+      name: clockAtom,
+      options: createOptionsColumn(clockAtom as 'minutes' | 'seconds'),
+      selectedIndex: time.value[clockAtom as 'minutes' | 'seconds']
+    })),
     buttons: [
       {
         text: 'Cancel',

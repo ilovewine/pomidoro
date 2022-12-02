@@ -8,7 +8,7 @@ export default class Clock {
   public state: ClockState = ClockState.STOPPED;
   private milliseconds = 0;
 
-  constructor(protected time: Time) {
+  constructor(public time: Time) {
     this.time = new Time(time.minutes, time.seconds, time.type);
   }
 

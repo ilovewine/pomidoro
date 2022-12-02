@@ -10,8 +10,6 @@ import { refreshOutline } from 'ionicons/icons';
 const store = useStore();
 
 const onResetButtonClick = () => {
-  console.log('click');
-
   store.restartClock();
 };
 </script>

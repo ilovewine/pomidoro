@@ -23,16 +23,10 @@ export const useStore = defineStore('clock', {
       this.clock = new Clock(time);
     },
     restartClock() {
-      console.log('durationSetting', this.getSetting(TimeType.BASE));
-
       this.clock = new Clock(this.getSetting(TimeType.BASE));
     },
     setDefaultDurationSettings(newTimer: Time) {
-      console.log('newTimer', newTimer.type);
-
       this.durationSettings[newTimer.type] = newTimer;
-      console.log('this.durationSettings', this.durationSettings[newTimer.type]);
-
       this.restartClock();
     },
   },
