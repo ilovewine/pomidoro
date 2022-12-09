@@ -5,11 +5,3 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: coturiv/setup-ionic@v1
-        with:
-          java-version: 8
-      - uses: coturiv/setup-ionic@v1
-        with:
-          cordova-version: 8
-      - run: |
-          ionic cordova build android --prod

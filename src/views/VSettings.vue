@@ -11,14 +11,14 @@
         <ion-row>
           <ion-col>
             <ion-list>
-              <c-setting-block label="Dark Mode">
-                <ion-toggle color="primary" />
+              <c-setting-block label='Dark Mode'>
+                <ion-toggle color='primary' />
               </c-setting-block>
-              <c-setting-block label="Work Timer">
-                <c-time-select :timer="workTimer" />
+              <c-setting-block label='Work Timer'>
+                <c-time-select :timer='workTimer' />
               </c-setting-block>
-              <c-setting-block label="Break Timer">
-                <c-time-select :timer="breakTimer" />
+              <c-setting-block label='Break Timer'>
+                <c-time-select :timer='breakTimer' />
               </c-setting-block>
             </ion-list>
           </ion-col>
@@ -28,7 +28,7 @@
   </ion-page>
 </template>
 
-<script setup lang="ts">
+<script setup lang='ts'>
 import {
   IonPage,
   IonHeader,
