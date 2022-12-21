@@ -5,12 +5,16 @@ import Time, { TimeType } from './Time';
 
 const DEFAULT_DURATION = {
   [TimeType.BREAK]: new Time(5, 0, TimeType.BREAK),
-  [TimeType.BASE]: new Time(25, 0, TimeType.BASE),
+  [TimeType.WORK]: new Time(25, 0, TimeType.WORK),
 };
+
+console.log(
+  Object.fromEntries(Object.values(TimeType).map(clockType => [clockType, new Clock(DEFAULT_DURATION[clockType])])),
+);
 
 export const useStore = defineStore('clock', {
   state: (): State => ({
-    clock: new Clock(DEFAULT_DURATION[TimeType.BASE]),
+    clock: Object.values(TimeType).map(clockType => [clockType, new Clock(DEFAULT_DURATION[clockType])]),
     durationSettings: DEFAULT_DURATION,
   }),
   getters: {
@@ -23,7 +27,7 @@ export const useStore = defineStore('clock', {
       this.clock = new Clock(time);
     },
     restartClock() {
-      this.clock = new Clock(this.getSetting(TimeType.BASE));
+      this.clock = new Clock(this.getSetting(TimeType.WORK));
     },
     setDefaultDurationSettings(newTimer: Time) {
       this.durationSettings[newTimer.type] = newTimer;

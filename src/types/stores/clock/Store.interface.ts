@@ -1,10 +1,7 @@
 import Clock from '@/stores/clock/Clock';
-import Time from '@/stores/clock/Time';
+import Time, { TimeType } from '@/stores/clock/Time';
 
 export default interface State {
-  clock: Clock;
-  durationSettings: {
-    break: Time;
-    base: Time;
-  };
+  clock: Record<TimeType, Clock>;
+  durationSettings: Record<TimeType, Time>;
 }

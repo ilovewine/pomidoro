@@ -1,6 +1,6 @@
 export enum TimeType {
-  BASE = 'base',
   BREAK = 'break',
+  WORK = 'work',
 }
 
 const convertToTimeElement = (time: number): string => time.toString().padStart(2, '0');

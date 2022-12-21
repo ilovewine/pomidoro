@@ -4,7 +4,8 @@
       <ion-grid class="v-home__grid">
         <ion-row>
           <ion-col>
-            <c-clock class="v-home__clock" />
+            <c-clock class="v-home__clock v-home__clock--active" />
+            <c-clock class="v-home__clock v-home__clock--inactive" />
           </ion-col>
         </ion-row>
         <ion-row>
@@ -41,6 +42,14 @@ import CResetButton from '@/components/controls/CResetButton.vue';
     margin-bottom: 5rem;
     margin-left: auto;
     margin-right: auto;
+
+    &--active {
+      // display: block;
+    }
+
+    &--inactive {
+      // display: none;
+    }
   }
 
   &__clock-controller {
