@@ -1,12 +1,19 @@
 <template>
   <div class="c-clock">
-    <h2 class="c-clock__time">{{ store.clock.readableTime }}</h2>
+    <h2 class="c-clock__time">{{ clock.readableTime }}</h2>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useStore } from '@/stores/clock';
-const store = useStore();
+import Clock from '@/stores/clock/Clock';
+import { PropType } from 'vue';
+
+defineProps({
+  clock: {
+    type: Object as PropType<Clock>,
+    required: true,
+  },
+});
 </script>
 
 <style scoped lang="scss">

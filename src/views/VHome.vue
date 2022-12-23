@@ -4,8 +4,8 @@
       <ion-grid class="v-home__grid">
         <ion-row>
           <ion-col>
-            <c-clock class="v-home__clock v-home__clock--active" />
-            <c-clock class="v-home__clock v-home__clock--inactive" />
+            <c-clock :clock="activeClock" class="v-home__clock v-home__clock--active" />
+            <c-clock :clock="inactiveClock" class="v-home__clock v-home__clock--inactive" />
           </ion-col>
         </ion-row>
         <ion-row>
@@ -26,6 +26,11 @@ import { IonPage, IonContent, IonGrid, IonRow, IonCol } from '@ionic/vue';
 import CClock from '@/components/CClock.vue';
 import CPlayPauseButton from '@/components/controls/CPlayPauseButton.vue';
 import CResetButton from '@/components/controls/CResetButton.vue';
+import { useStore } from '@/stores/clock';
+const store = useStore();
+
+const activeClock = store.activeClock;
+const inactiveClock = store.inactiveClock;
 </script>
 
 <style scoped lang="scss">

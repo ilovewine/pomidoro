@@ -2,32 +2,37 @@ import { defineStore } from 'pinia';
 import State from '@/types/stores/clock/Store.interface';
 import Clock from './Clock';
 import Time, { TimeType } from './Time';
+import ClockState from '@/types/stores/clock/ClockState.type';
 
 const DEFAULT_DURATION = {
   [TimeType.BREAK]: new Time(5, 0, TimeType.BREAK),
   [TimeType.WORK]: new Time(25, 0, TimeType.WORK),
 };
 
-console.log(
-  Object.fromEntries(Object.values(TimeType).map(clockType => [clockType, new Clock(DEFAULT_DURATION[clockType])])),
-);
-
 export const useStore = defineStore('clock', {
   state: (): State => ({
-    clock: Object.values(TimeType).map(clockType => [clockType, new Clock(DEFAULT_DURATION[clockType])]),
+    clock: Object.fromEntries(
+      Object.values(TimeType).map(clockType => [clockType, new Clock(DEFAULT_DURATION[clockType])]),
+    ) as Record<TimeType, Clock>,
     durationSettings: DEFAULT_DURATION,
+    activeClockType: TimeType.WORK,
   }),
   getters: {
-    getTime: state => state.clock.readableTime,
-    getClockState: state => state.clock.state,
+    activeClock: state => state.clock[state.activeClockType],
+    getTime(): string {
+      return this.activeClock.readableTime;
+    },
+    getClockState(): ClockState {
+      return this.activeClock.state;
+    },
     getSetting: state => (type: TimeType) => state.durationSettings[type],
   },
   actions: {
-    setClock(time: Time) {
-      this.clock = new Clock(time);
+    setClock(type: TimeType, time: Time) {
+      this.clock[type] = new Clock(time);
     },
     restartClock() {
-      this.clock = new Clock(this.getSetting(TimeType.WORK));
+      this.clock[this.activeClockType] = new Clock(this.getSetting(this.activeClockType));
     },
     setDefaultDurationSettings(newTimer: Time) {
       this.durationSettings[newTimer.type] = newTimer;
