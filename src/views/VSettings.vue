@@ -11,14 +11,17 @@
         <ion-row>
           <ion-col>
             <ion-list>
-              <c-setting-block label='Dark Mode'>
-                <ion-toggle color='primary' />
+              <c-setting-block label="Dark Mode">
+                <ion-toggle color="primary" />
               </c-setting-block>
-              <c-setting-block label='Work Timer'>
-                <c-time-select :timer='workTimer' />
+              <c-setting-block label="Work Timer">
+                <c-time-select :timer="workTimer" />
               </c-setting-block>
-              <c-setting-block label='Break Timer'>
-                <c-time-select :timer='breakTimer' />
+              <c-setting-block label="Short Break Timer">
+                <c-time-select :timer="breakTimer" />
+              </c-setting-block>
+              <c-setting-block label="Long Break Timer">
+                <c-time-select :timer="longBreakTimer" />
               </c-setting-block>
             </ion-list>
           </ion-col>
@@ -28,7 +31,7 @@
   </ion-page>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 import {
   IonPage,
   IonHeader,
@@ -45,9 +48,11 @@ import CSettingBlock from '@/components/CSettingBlock.vue';
 import { useStore } from '@/stores/clock';
 import { computed } from '@vue/reactivity';
 import CTimeSelect from '@/components/CTimeSelect.vue';
+import { TimeType } from '@/stores/clock/Time';
 
 const store = useStore();
 
-const workTimer = computed(() => store.durationSettings.base);
-const breakTimer = computed(() => store.durationSettings.break);
+const workTimer = computed(() => store.durationSettings[TimeType.WORK]);
+const breakTimer = computed(() => store.durationSettings[TimeType.BREAK]);
+const longBreakTimer = computed(() => store.durationSettings[TimeType.LONG_BREAK]);
 </script>

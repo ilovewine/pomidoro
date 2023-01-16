@@ -17,10 +17,10 @@ const onTimerClick = () => {
   switch (store.getClockState) {
     case ClockState.PAUSED:
     case ClockState.STOPPED:
-      store.clock.start();
+      store.activeClock.start();
       break;
     case ClockState.RUNNING:
-      store.clock.pause();
+      store.activeClock.pause();
       break;
   }
 };

@@ -7,6 +7,7 @@ import ClockState from '@/types/stores/clock/ClockState.type';
 const DEFAULT_DURATION = {
   [TimeType.BREAK]: new Time(5, 0, TimeType.BREAK),
   [TimeType.WORK]: new Time(25, 0, TimeType.WORK),
+  [TimeType.LONG_BREAK]: new Time(30, 0, TimeType.LONG_BREAK),
 };
 
 export const useStore = defineStore('clock', {
@@ -18,7 +19,9 @@ export const useStore = defineStore('clock', {
     activeClockType: TimeType.WORK,
   }),
   getters: {
-    activeClock: state => state.clock[state.activeClockType],
+    activeClock(): Clock {
+      return this.clock[this.activeClockType] as Clock;
+    },
     getTime(): string {
       return this.activeClock.readableTime;
     },

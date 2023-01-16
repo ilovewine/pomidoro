@@ -1,6 +1,7 @@
 export enum TimeType {
   BREAK = 'break',
   WORK = 'work',
+  LONG_BREAK = 'longBreak',
 }
 
 const convertToTimeElement = (time: number): string => time.toString().padStart(2, '0');

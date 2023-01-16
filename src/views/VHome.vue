@@ -3,9 +3,9 @@
     <ion-content class="v-home__content ion-padding v-home__content">
       <ion-grid class="v-home__grid">
         <ion-row>
-          <ion-col>
-            <c-clock :clock="activeClock" class="v-home__clock v-home__clock--active" />
-            <c-clock :clock="inactiveClock" class="v-home__clock v-home__clock--inactive" />
+          <ion-col class="v-home__clock-wrapper">
+            <c-clock :clock="activeClock" class="v-home__clock v-home__clock--active" @click="chooseClock" />
+            <ion-text class="v-home__clock-title">{{ activeClockType }}</ion-text>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonContent, IonGrid, IonRow, IonCol } from '@ionic/vue';
+import { IonPage, IonContent, IonGrid, IonRow, IonCol, IonText } from '@ionic/vue';
 import CClock from '@/components/CClock.vue';
 import CPlayPauseButton from '@/components/controls/CPlayPauseButton.vue';
 import CResetButton from '@/components/controls/CResetButton.vue';
@@ -30,31 +30,36 @@ import { useStore } from '@/stores/clock';
 const store = useStore();
 
 const activeClock = store.activeClock;
-const inactiveClock = store.inactiveClock;
+const activeClockType = store.activeClockType;
+
+const chooseClock = () => {
+  console.log('click');
+};
 </script>
 
 <style scoped lang="scss">
 .v-home {
   &__grid {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  &__clock-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   &__clock {
-    margin-bottom: 5rem;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 1rem;
+  }
 
-    &--active {
-      // display: block;
-    }
-
-    &--inactive {
-      // display: none;
-    }
+  &__clock-title {
+    font-size: 2rem;
   }
 
   &__clock-controller {

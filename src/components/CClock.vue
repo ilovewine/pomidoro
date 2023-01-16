@@ -1,6 +1,8 @@
 <template>
   <div class="c-clock">
-    <h2 class="c-clock__time">{{ clock.readableTime }}</h2>
+    <svg viewBox="0 0 40 18" class="c-clock__time">
+      <text x="0" y="15">{{ clock.readableTime }}</text>
+    </svg>
   </div>
 </template>
 
@@ -22,17 +24,9 @@ defineProps({
   max-width: 30rem;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
-  background-color: rgba(#eb2727, 0.6);
+  background-color: rgba(#eb2727, 1);
   position: relative;
-
-  &:after {
-    content: '';
-    border-radius: 50%;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(#eb2727, 1);
-  }
+  cursor: pointer;
 
   &__time {
     position: absolute;
@@ -40,8 +34,9 @@ defineProps({
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
-    font-size: 7rem;
+    width: 80%;
     margin: 0;
+    fill: var(--ion-color-light);
   }
 }
 </style>
