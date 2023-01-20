@@ -4,7 +4,20 @@
       <ion-grid class="v-home__grid">
         <ion-row>
           <ion-col class="v-home__clock-wrapper">
-            <c-clock :clock="activeClock" class="v-home__clock v-home__clock--active" @click="chooseClock" />
+            <c-slides class="v-home__slides">
+              <swiper-slide v-for="clock in clockTypes" :key="clock">
+                <c-clock
+                  :clock="clocks[clock]"
+                  :class="['v-home__clock', { 'v-home__clock--active': store.activeClockType === clock }]" />
+              </swiper-slide>
+            </c-slides>
+            <!-- <c-slides>
+              <c-clock
+                v-for="clock in clocks"
+                :key="clock"
+                :clock="clock"
+                class="v-home__clock v-home__clock--active" />
+            </c-slides> -->
             <ion-text class="v-home__clock-title">{{ activeClockType }}</ion-text>
           </ion-col>
         </ion-row>
@@ -27,14 +40,13 @@ import CClock from '@/components/CClock.vue';
 import CPlayPauseButton from '@/components/controls/CPlayPauseButton.vue';
 import CResetButton from '@/components/controls/CResetButton.vue';
 import { useStore } from '@/stores/clock';
+import CSlides from '@/components/CSlides.vue';
+import { SwiperSlide } from 'swiper/vue';
 const store = useStore();
 
-const activeClock = store.activeClock;
 const activeClockType = store.activeClockType;
-
-const chooseClock = () => {
-  console.log('click');
-};
+const clockTypes = Object.keys(store.clock);
+const clocks = store.clock;
 </script>
 
 <style scoped lang="scss">
@@ -50,6 +62,10 @@ const chooseClock = () => {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  &__slides {
+    max-width: 15rem;
   }
 
   &__clock {
