@@ -1,5 +1,6 @@
 import Clock from '@/stores/clock/Clock';
-import Time, { TimeType } from '@/stores/clock/Time';
+import Time from '@/stores/clock/Time';
+import { TimeType } from '@/types/TimeType';
 
 export default interface State {
   clock: Record<TimeType, Clock>;

@@ -1,4 +1,4 @@
-import ClockState from '@/types/stores/clock/ClockState.type';
+import ClockState from '@/types/ClockState.type';
 import Time from '@/stores/clock/Time';
 
 const MILLISECONDS_INTERVAL_DURATION = 10;

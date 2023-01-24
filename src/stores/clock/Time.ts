@@ -1,8 +1,4 @@
-export enum TimeType {
-  BREAK = 'break',
-  WORK = 'work',
-  LONG_BREAK = 'longBreak',
-}
+import { TimeType } from '@/types/Time.type';
 
 const convertToTimeElement = (time: number): string => time.toString().padStart(2, '0');
 

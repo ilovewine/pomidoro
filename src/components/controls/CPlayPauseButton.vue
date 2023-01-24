@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { useStore } from '@/stores/clock';
-import ClockState from '@/types/stores/clock/ClockState.type';
+import ClockState from '@/types/ClockState.type';
 import { computed } from 'vue';
 import CIcon from '@/components/controls/CIcon.vue';
 import { playOutline, pauseOutline } from 'ionicons/icons';

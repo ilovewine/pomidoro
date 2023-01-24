@@ -48,7 +48,7 @@ import CSettingBlock from '@/components/CSettingBlock.vue';
 import { useStore } from '@/stores/clock';
 import { computed } from '@vue/reactivity';
 import CTimeSelect from '@/components/CTimeSelect.vue';
-import { TimeType } from '@/stores/clock/Time';
+import { TimeType } from '@/types/Time.type';
 
 const store = useStore();
 

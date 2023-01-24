@@ -1,29 +1,46 @@
 <template>
-  <swiper loop v-on="events" class="c-slides">
-    <slot />
+  <swiper
+    loop
+    @slide-change="onSlideChange"
+    class="c-slides"
+    :initial-slide="timeTypeValues.indexOf(store.activeClockType)">
+    <swiper-slide v-for="clock in timeTypeValues" :key="clock">
+      <c-clock
+        :clock="clocks[clock]"
+        :class="['c-slides__slide', { 'c-slides__slide--active': store.activeClockType === clock }]" />
+    </swiper-slide>
   </swiper>
 </template>
 
-<script lang="ts">
-const events = {
-  slideChange: (swiper: any) => {
-    console.log('slideChange', swiper);
-  },
-  sliderMove: (swiper: any) => {
-    console.log('sliderMove', swiper);
-  },
-};
-</script>
 <script setup lang="ts">
-import { Swiper } from 'swiper/vue';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/scss';
 import '@ionic/vue/css/ionic-swiper.css';
+import { timeTypeValues } from '@/types/Time.type';
+import { useStore } from '@/stores/clock';
+import CClock from '@/components/CClock.vue';
 
-defineEmits(events);
+const store = useStore();
+const clocks = store.clock;
+
+const onSlideChange = (swiper: any) => {
+  const index = swiper.realIndex;
+  store.setActiveClock(timeTypeValues[index]);
+};
 </script>
 
 <style scoped lang="scss">
 .c-slides {
   width: 100%;
+
+  &__slide {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
+
+    &--active {
+      border: 1px solid green;
+    }
+  }
 }
 </style>
