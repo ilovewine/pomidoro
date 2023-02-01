@@ -9,6 +9,7 @@ export default class Clock {
   private milliseconds = 0;
 
   constructor(public time: Time) {
+    // de-reference the time object
     this.time = new Time(time.minutes, time.seconds, time.type);
   }
 

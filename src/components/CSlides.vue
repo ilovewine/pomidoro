@@ -1,7 +1,8 @@
 <template>
   <swiper
     loop
-    @slide-change="onSlideChange"
+    css-mode
+    :enabled="false"
     class="c-slides"
     :initial-slide="timeTypeValues.indexOf(store.activeClockType)">
     <swiper-slide v-for="clock in timeTypeValues" :key="clock">
@@ -22,11 +23,6 @@ import CClock from '@/components/CClock.vue';
 
 const store = useStore();
 const clocks = store.clock;
-
-const onSlideChange = (swiper: any) => {
-  const index = swiper.realIndex;
-  store.setActiveClock(timeTypeValues[index]);
-};
 </script>
 
 <style scoped lang="scss">
