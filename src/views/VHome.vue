@@ -3,8 +3,8 @@
     <ion-content class="ion-padding">
       <ion-grid class="v-home__grid">
         <ion-row>
-          <ion-col class="v-home__slides-wrapper">
-            <c-slides class="v-home__slides" />
+          <ion-col class="v-home__clock-wrapper">
+            <c-clock :clock="activeClock" class="v-home__clock" />
             <ion-text class="v-home__clock-title">{{ activeClockType }}</ion-text>
           </ion-col>
         </ion-row>
@@ -26,10 +26,11 @@ import { IonPage, IonContent, IonGrid, IonRow, IonCol, IonText } from '@ionic/vu
 import CPlayPauseButton from '@/components/controls/CPlayPauseButton.vue';
 import CResetButton from '@/components/controls/CResetButton.vue';
 import { useStore } from '@/stores/clock';
-import CSlides from '@/components/CSlides.vue';
+import CClock from '@/components/CClock.vue';
 const store = useStore();
 
 const activeClockType = store.activeClockType;
+const activeClock = store.activeClock;
 </script>
 
 <style scoped lang="scss">
@@ -41,14 +42,17 @@ const activeClockType = store.activeClockType;
     justify-content: space-around;
   }
 
-  &__slides-wrapper {
+  &__clock-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
   }
 
-  &__slides {
-    max-width: 15rem;
+  &__clock {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
   }
 
   &__clock-title {
