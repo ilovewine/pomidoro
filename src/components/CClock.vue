@@ -1,21 +1,30 @@
 <template>
   <div class="c-clock">
-    <svg viewBox="0 0 40 18" class="c-clock__time">
-      <text x="0" y="15">{{ clock.readableTime }}</text>
-    </svg>
+    <transition name="fade">
+      <svg viewBox="0 0 40 18" class="c-clock__time">
+        <text x="0" y="15">{{ activeClock.readableTime }}</text>
+      </svg>
+    </transition>
   </div>
+  <ion-text class="c-clock__name">{{ activeClockType }}</ion-text>
 </template>
 
 <script setup lang="ts">
-import Clock from '@/stores/clock/Clock';
-import { PropType } from 'vue';
+import { useStore } from '@/stores/clock';
+import { IonText } from '@ionic/vue';
+import { watch } from 'vue';
 
-defineProps({
-  clock: {
-    type: Object as PropType<Clock>,
-    required: true,
+const store = useStore();
+
+const activeClock = store.activeClock;
+const activeClockType = store.activeClockType;
+
+watch(
+  () => activeClock.state,
+  () => {
+    console.log('state changed', activeClock.state);
   },
-});
+);
 </script>
 
 <style scoped lang="scss">
@@ -27,6 +36,7 @@ defineProps({
   background-color: rgba(#eb2727, 1);
   position: relative;
   cursor: pointer;
+  margin-bottom: 2rem;
 
   &__time {
     position: absolute;
@@ -37,6 +47,10 @@ defineProps({
     width: 80%;
     margin: 0;
     fill: var(--ion-color-light);
+  }
+
+  &__name {
+    font-size: 2rem;
   }
 }
 </style>

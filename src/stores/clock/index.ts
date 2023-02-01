@@ -5,10 +5,16 @@ import Time from './Time';
 import { TimeType } from '@/types/Time.type';
 import ClockState from '@/types/ClockState.type';
 
+// const DEFAULT_DURATION = {
+//   [TimeType.BREAK]: new Time(5, 0, TimeType.BREAK),
+//   [TimeType.WORK]: new Time(25, 0, TimeType.WORK),
+//   [TimeType.LONG_BREAK]: new Time(30, 0, TimeType.LONG_BREAK),
+// };
+
 const DEFAULT_DURATION = {
-  [TimeType.BREAK]: new Time(5, 0, TimeType.BREAK),
-  [TimeType.WORK]: new Time(25, 0, TimeType.WORK),
-  [TimeType.LONG_BREAK]: new Time(30, 0, TimeType.LONG_BREAK),
+  [TimeType.BREAK]: new Time(0, 5, TimeType.BREAK),
+  [TimeType.WORK]: new Time(0, 4, TimeType.WORK),
+  [TimeType.LONG_BREAK]: new Time(0, 3, TimeType.LONG_BREAK),
 };
 
 export const useStore = defineStore('clock', {
