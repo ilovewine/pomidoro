@@ -17,14 +17,16 @@ export default class Clock {
     this.interval = setInterval(() => {
       this.milliseconds -= MILLISECONDS_INTERVAL_DURATION;
       if (this.milliseconds === 0) {
-        if (this.time.seconds === 0) {
+        if (this.time.seconds <= 0) {
           if (this.time.minutes === 0) {
+            console.log('stopping!');
             this.stop();
           } else {
             --this.time.minutes;
             this.time.seconds = Time.SECONDS_IN_ONE_MINUTE - 1;
           }
         } else {
+          console.log('decrementing seconds');
           --this.time.seconds;
           this.milliseconds = 1000;
         }
@@ -38,6 +40,12 @@ export default class Clock {
   }
 
   start() {
+    this.state = ClockState.RUNNING;
+    --this.time.seconds;
+    this.clockTick();
+  }
+
+  continue() {
     this.state = ClockState.RUNNING;
     this.clockTick();
   }

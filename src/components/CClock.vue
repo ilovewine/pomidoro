@@ -12,19 +12,12 @@
 <script setup lang="ts">
 import { useStore } from '@/stores/clock';
 import { IonText } from '@ionic/vue';
-import { watch } from 'vue';
+import { computed } from 'vue';
 
 const store = useStore();
 
-const activeClock = store.activeClock;
-const activeClockType = store.activeClockType;
-
-watch(
-  () => activeClock.state,
-  () => {
-    console.log('state changed', activeClock.state);
-  },
-);
+const activeClock = computed(() => store.activeClock);
+const activeClockType = computed(() => store.activeClockType);
 </script>
 
 <style scoped lang="scss">

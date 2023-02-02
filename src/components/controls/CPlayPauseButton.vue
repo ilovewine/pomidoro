@@ -16,6 +16,8 @@ const icon = computed(() => (store.getClockState === ClockState.RUNNING ? pauseO
 const onTimerClick = () => {
   switch (store.getClockState) {
     case ClockState.PAUSED:
+      store.activeClock.continue();
+      break;
     case ClockState.STOPPED:
       store.activeClock.start();
       break;
