@@ -23,6 +23,7 @@
               <c-setting-block label="Long Break Timer">
                 <c-time-select :timer="longBreakTimer" />
               </c-setting-block>
+              <!-- TODO: set cycle number -->
             </ion-list>
           </ion-col>
         </ion-row>

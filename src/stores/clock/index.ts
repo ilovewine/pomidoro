@@ -24,6 +24,7 @@ export const useStore = defineStore('clock', {
     ) as Record<TimeType, Clock>,
     durationSettings: DEFAULT_DURATION,
     activeClockType: TimeType.WORK,
+    cycle: 0,
   }),
   getters: {
     activeClock(): Clock {
@@ -41,7 +42,12 @@ export const useStore = defineStore('clock', {
     setClock(type: TimeType, time: Time) {
       this.clock[type] = new Clock(time);
     },
-    restartClock() {
+    restartAllClocks() {
+      for (let clock of Object.values(this.clock)) {
+        clock = new Clock(this.getSetting(clock.time.type));
+      }
+    },
+    restartActiveClock() {
       this.clock[this.activeClockType] = new Clock(this.getSetting(this.activeClockType));
     },
     setActiveClock(type: TimeType) {
@@ -49,7 +55,12 @@ export const useStore = defineStore('clock', {
     },
     setDefaultDurationSettings(newTimer: Time) {
       this.durationSettings[newTimer.type] = newTimer;
-      this.restartClock();
+      this.restartActiveClock();
+    },
+    setNextCycle() {
+      ++this.cycle;
+      this.cycle %= 4;
+      if (!this.cycle) this.setActiveClock(TimeType.LONG_BREAK);
     },
   },
 });
