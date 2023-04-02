@@ -1,5 +1,5 @@
 <template>
-  <c-icon :icon="icon" @click="onTimerClick" />
+  <c-icon :icon="icon" @click="onTimerClick" :disabled="disabled" />
 </template>
 
 <script setup lang="ts">
@@ -13,17 +13,21 @@ const store = useStore();
 
 const icon = computed(() => (store.getClockState === ClockState.RUNNING ? pauseOutline : playOutline));
 
+const disabled = computed(() => store.getClockState === ClockState.STOPPED && store.activeClock.isClockZeroed);
+
 const onTimerClick = () => {
-  switch (store.getClockState) {
-    case ClockState.PAUSED:
-      store.activeClock.continue();
-      break;
-    case ClockState.STOPPED:
-      store.activeClock.start();
-      break;
-    case ClockState.RUNNING:
-      store.activeClock.pause();
-      break;
+  if (!disabled.value) {
+    switch (store.getClockState) {
+      case ClockState.PAUSED:
+        store.activeClock.continue();
+        break;
+      case ClockState.STOPPED:
+        store.activeClock.start();
+        break;
+      case ClockState.RUNNING:
+        store.activeClock.pause();
+        break;
+    }
   }
 };
 </script>

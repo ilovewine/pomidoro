@@ -7,6 +7,7 @@ export default class Clock {
   private interval = 0;
   public state: ClockState = ClockState.STOPPED;
   private milliseconds = 1000;
+  public isClockZeroed = false;
 
   constructor(public time: Time) {
     // de-reference the time object
@@ -20,6 +21,7 @@ export default class Clock {
         if (this.time.seconds <= 0) {
           if (this.time.minutes === 0) {
             console.log('stopping!');
+            this.isClockZeroed = true;
             this.stop();
           } else {
             --this.time.minutes;
@@ -40,6 +42,7 @@ export default class Clock {
   }
 
   start() {
+    this.isClockZeroed = false;
     this.state = ClockState.RUNNING;
     --this.time.seconds;
     this.clockTick();
