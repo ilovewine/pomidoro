@@ -1,5 +1,5 @@
-import ClockState from '@/types/ClockState.type';
 import Time from '@/stores/clock/Time';
+import ClockState from '@/types/ClockState.type';
 
 const MILLISECONDS_INTERVAL_DURATION = 10;
 
@@ -18,7 +18,7 @@ export default class Clock {
     this.interval = setInterval(() => {
       this.milliseconds -= MILLISECONDS_INTERVAL_DURATION;
       if (this.milliseconds === 0) {
-        if (this.time.seconds <= 0) {
+        if (this.time.seconds === 0) {
           if (this.time.minutes === 0) {
             console.log('stopping!');
             this.isClockZeroed = true;

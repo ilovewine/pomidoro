@@ -39,28 +39,27 @@
 </template>
 
 <script setup lang="ts">
+import CSettingBlock from '@/components/CSettingBlock.vue';
+import CTimeSelect from '@/components/CTimeSelect.vue';
+import { useStore } from '@/stores/clock';
+import { ClockType } from '@/types/ClockType';
 import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
+  IonCol,
   IonContent,
   IonGrid,
-  IonRow,
-  IonCol,
+  IonHeader,
   IonList,
+  IonPage,
+  IonRow,
+  IonTitle,
   IonToggle,
-  IonInput,
+  IonToolbar,
 } from '@ionic/vue';
-import CSettingBlock from '@/components/settings/CSettingBlock.vue';
-import { useStore } from '@/stores/clock';
 import { computed } from '@vue/reactivity';
-import CTimeSelect from '@/components/settings/CTimeSelect.vue';
-import { TimeType } from '@/types/Time.type';
 
 const store = useStore();
 
-const workTimer = computed(() => store.durationSettings[TimeType.WORK]);
-const breakTimer = computed(() => store.durationSettings[TimeType.BREAK]);
-const longBreakTimer = computed(() => store.durationSettings[TimeType.LONG_BREAK]);
+const workTimer = computed(() => store.durationSettings[ClockType.WORK]);
+const breakTimer = computed(() => store.durationSettings[ClockType.BREAK]);
+const longBreakTimer = computed(() => store.durationSettings[ClockType.LONG_BREAK]);
 </script>

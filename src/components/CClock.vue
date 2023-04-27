@@ -1,5 +1,5 @@
 <template>
-  <div class="c-clock">
+  <div class="c-clock" v-bind="$attrs">
     <transition name="fade">
       <svg viewBox="0 0 40 18" class="c-clock__time">
         <text x="0" y="15">{{ activeClock.readableTime }}</text>

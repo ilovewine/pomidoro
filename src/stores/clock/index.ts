@@ -1,34 +1,40 @@
-import { defineStore } from 'pinia';
+import ClockState from '@/types/ClockState.type';
+import { ClockType } from '@/types/ClockType';
 import State from '@/types/Store.interface';
+import { defineStore } from 'pinia';
 import Clock from './Clock';
 import Time from './Time';
-import { TimeType } from '@/types/Time.type';
-import ClockState from '@/types/ClockState.type';
 
 // const DEFAULT_DURATION = {
-//   [TimeType.BREAK]: new Time(5, 0, TimeType.BREAK),
-//   [TimeType.WORK]: new Time(25, 0, TimeType.WORK),
-//   [TimeType.LONG_BREAK]: new Time(30, 0, TimeType.LONG_BREAK),
+//   [clockType.BREAK]: new Time(5, 0, clockType.BREAK),
+//   [clockType.WORK]: new Time(25, 0, clockType.WORK),
+//   [clockType.LONG_BREAK]: new Time(30, 0, clockType.LONG_BREAK),
 // };
 
-const DEFAULT_DURATION = {
-  [TimeType.BREAK]: new Time(0, 5, TimeType.BREAK),
-  [TimeType.WORK]: new Time(0, 4, TimeType.WORK),
-  [TimeType.LONG_BREAK]: new Time(0, 3, TimeType.LONG_BREAK),
+const DEFAULT_DURATION: Record<ClockType, Time> = {
+  [ClockType.BREAK]: new Time(0, 5, ClockType.BREAK),
+  [ClockType.WORK]: new Time(0, 4, ClockType.WORK),
+  [ClockType.LONG_BREAK]: new Time(0, 3, ClockType.LONG_BREAK),
+};
+
+const createClockMap = (): Map<ClockType, Clock> => {
+  const map = new Map();
+  Object.keys(DEFAULT_DURATION).forEach(clockType => {
+    map.set(clockType, new Clock(DEFAULT_DURATION[clockType as ClockType]));
+  });
+  return map;
 };
 
 export const useStore = defineStore('clock', {
   state: (): State => ({
-    clock: Object.fromEntries(
-      Object.values(TimeType).map(clockType => [clockType, new Clock(DEFAULT_DURATION[clockType])]),
-    ) as Record<TimeType, Clock>,
+    clock: createClockMap(),
     durationSettings: DEFAULT_DURATION,
-    activeClockType: TimeType.WORK,
+    activeClockType: ClockType.WORK,
     cycle: 0,
   }),
   getters: {
     activeClock(): Clock {
-      return this.clock[this.activeClockType] as Clock;
+      return this.clock.get(this.activeClockType) as Clock;
     },
     getTime(): string {
       return this.activeClock.readableTime;
@@ -36,31 +42,35 @@ export const useStore = defineStore('clock', {
     getClockState(): ClockState {
       return this.activeClock.state;
     },
-    getSetting: state => (type: TimeType) => state.durationSettings[type],
+    getSetting: state => (type: ClockType) => state.durationSettings[type],
   },
   actions: {
-    setClock(type: TimeType, time: Time) {
-      this.clock[type] = new Clock(time);
+    setClock(type: ClockType, time: Time) {
+      this.clock.set(type, new Clock(time));
+    },
+    restartClock(clockType: ClockType) {
+      this.setClock(clockType, this.getSetting(clockType));
     },
     restartAllClocks() {
-      for (let clock of Object.values(this.clock)) {
-        clock = new Clock(this.getSetting(clock.time.type));
-      }
+      this.clock.forEach((_, clockType) => {
+        console.log('clock1', clockType);
+        this.restartClock(clockType);
+        console.log('clock2', clockType);
+        console.log('----------------');
+      });
+      console.log(this.clock);
     },
-    restartActiveClock() {
-      this.clock[this.activeClockType] = new Clock(this.getSetting(this.activeClockType));
-    },
-    setActiveClock(type: TimeType) {
+    setActiveClock(type: ClockType) {
       this.activeClockType = type;
     },
     setDefaultDurationSettings(newTimer: Time) {
       this.durationSettings[newTimer.type] = newTimer;
-      this.restartActiveClock();
+      this.restartClock(this.activeClockType);
     },
     setNextCycle() {
       ++this.cycle;
       this.cycle %= 4;
-      if (!this.cycle) this.setActiveClock(TimeType.LONG_BREAK);
+      if (!this.cycle) this.setActiveClock(ClockType.LONG_BREAK);
     },
   },
 });
