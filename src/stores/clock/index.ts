@@ -53,12 +53,8 @@ export const useStore = defineStore('clock', {
     },
     restartAllClocks() {
       this.clock.forEach((_, clockType) => {
-        console.log('clock1', clockType);
         this.restartClock(clockType);
-        console.log('clock2', clockType);
-        console.log('----------------');
       });
-      console.log(this.clock);
     },
     setActiveClock(type: ClockType) {
       this.activeClockType = type;

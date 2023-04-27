@@ -20,7 +20,6 @@ export default class Clock {
       if (this.milliseconds === 0) {
         if (this.time.seconds === 0) {
           if (this.time.minutes === 0) {
-            console.log('stopping!');
             this.isClockZeroed = true;
             this.stop();
           } else {
@@ -28,7 +27,6 @@ export default class Clock {
             this.time.seconds = Time.SECONDS_IN_ONE_MINUTE - 1;
           }
         } else {
-          console.log('decrementing seconds');
           --this.time.seconds;
           this.milliseconds = 1000;
         }

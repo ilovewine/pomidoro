@@ -3,11 +3,11 @@
 </template>
 
 <script setup lang="ts">
+import CIcon from '@/components/controls/CIcon.vue';
 import { useStore } from '@/stores/clock';
 import ClockState from '@/types/ClockState.type';
+import { pauseOutline, playOutline } from 'ionicons/icons';
 import { computed } from 'vue';
-import CIcon from '@/components/controls/CIcon.vue';
-import { playOutline, pauseOutline } from 'ionicons/icons';
 
 const store = useStore();
 
