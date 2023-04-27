@@ -1,6 +1,6 @@
 import Clock from '@/stores/clock/Clock';
 import Time from '@/stores/clock/Time';
-import { ClockType } from '@/types/Time.type';
+import { ClockType } from './ClockType';
 
 export default interface State {
   clock: Map<ClockType, Clock>;

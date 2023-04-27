@@ -29,7 +29,7 @@
               <c-setting-block label="Number of Cycles">
                 <ion-input type="number" placeholder="4" />
               </c-setting-block>
-              <!-- TODO: set cycle number -->
+              <!-- TODO: pomidoro#13 set cycle number -->
             </ion-list>
           </ion-col>
         </ion-row>

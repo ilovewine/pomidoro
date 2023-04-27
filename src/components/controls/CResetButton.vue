@@ -10,7 +10,7 @@ import { refreshOutline } from 'ionicons/icons';
 const store = useStore();
 
 const onResetButtonClick = () => {
-  // TODO: prompt user to confirm
+  // TODO: pomidoro#12 prompt user to confirm
   store.restartAllClocks();
 };
 </script>

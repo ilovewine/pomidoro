@@ -5,7 +5,7 @@
         <ion-row>
           <ion-col class="v-home__clock-wrapper">
             <c-clock class="v-home__clock" />
-            <!-- TODO: include cycle number (e.g. 1/4) -->
+            <!-- TODO: pomidoro#13 include cycle number (e.g. 1/4) -->
           </ion-col>
         </ion-row>
         <ion-row>
