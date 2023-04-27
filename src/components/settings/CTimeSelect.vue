@@ -7,51 +7,44 @@
 <script setup lang="ts">
 import { useStore } from '@/stores/clock';
 import Time from '@/stores/clock/Time';
-import {
-  IonButton,
-  pickerController
-} from '@ionic/vue';
-import { PropType, computed } from 'vue';
+import { IonButton, pickerController } from '@ionic/vue';
+import { PropType } from 'vue';
 
 const props = defineProps({
   timer: {
     type: Object as PropType<Time>,
-    required: true
-  }
+    required: true,
+  },
 });
 
-
 const store = useStore();
-const time = computed(() => store.clock.time);
 
-const createOptionsColumn = (atom: 'minutes' | 'seconds') => Array.from({ length: atom === 'minutes' ? 100 : Time.SECONDS_IN_ONE_MINUTE }, (_, i) => ({
-  text: i.toString().padStart(2, '0'),
-  value: i,
-}));
+const createOptionsColumn = (atom: 'minutes' | 'seconds') =>
+  Array.from({ length: atom === 'minutes' ? 100 : Time.SECONDS_IN_ONE_MINUTE }, (_, i) => ({
+    text: i.toString().padStart(2, '0'),
+    value: i,
+  }));
 
 const setTime = async () => {
   const picker = await pickerController.create({
-    columns: ['minutes', 'seconds'].map((clockAtom) => ({
+    columns: ['minutes', 'seconds'].map(clockAtom => ({
       name: clockAtom,
       options: createOptionsColumn(clockAtom as 'minutes' | 'seconds'),
-      selectedIndex: time.value[clockAtom as 'minutes' | 'seconds']
+      selectedIndex: props.timer[clockAtom as 'minutes' | 'seconds'],
     })),
     buttons: [
       {
         text: 'Cancel',
-        role: 'cancel'
+        role: 'cancel',
       },
       {
         text: 'Confirm',
-        handler: (value) => {
+        handler: value => {
           store.setDefaultDurationSettings(new Time(value.minutes.value, value.seconds.value, props.timer.type));
-        }
-      }
-    ]
+        },
+      },
+    ],
   });
   await picker.present();
 };
 </script>
-
-<style scoped lang="scss">
-</style>

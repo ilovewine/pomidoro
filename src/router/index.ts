@@ -3,6 +3,10 @@ import { RouteRecordRaw } from 'vue-router';
 import VHome from '@/views/VHome.vue';
 import VSettings from '@/views/VSettings.vue';
 
+interface Import extends ImportMeta {
+  env: Record<string, string>;
+}
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/home',
@@ -19,8 +23,7 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-  // @ts-ignore
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory((import.meta as Import).env.BASE_URL),
   routes,
 });
 

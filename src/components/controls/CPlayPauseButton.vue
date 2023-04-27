@@ -1,27 +1,33 @@
 <template>
-  <c-icon :icon="icon" @click="onTimerClick" />
+  <c-icon :icon="icon" @click="onTimerClick" :disabled="disabled" />
 </template>
 
 <script setup lang="ts">
-import { useStore } from '@/stores/clock';
-import ClockState from '@/types/stores/clock/ClockState.type';
-import { computed } from 'vue';
 import CIcon from '@/components/controls/CIcon.vue';
-import { playOutline, pauseOutline } from 'ionicons/icons';
+import { useStore } from '@/stores/clock';
+import ClockState from '@/types/ClockState.type';
+import { pauseOutline, playOutline } from 'ionicons/icons';
+import { computed } from 'vue';
 
 const store = useStore();
 
 const icon = computed(() => (store.getClockState === ClockState.RUNNING ? pauseOutline : playOutline));
 
+const disabled = computed(() => store.getClockState === ClockState.STOPPED && store.activeClock.isClockZeroed);
+
 const onTimerClick = () => {
-  switch (store.getClockState) {
-    case ClockState.PAUSED:
-    case ClockState.STOPPED:
-      store.clock.start();
-      break;
-    case ClockState.RUNNING:
-      store.clock.pause();
-      break;
+  if (!disabled.value) {
+    switch (store.getClockState) {
+      case ClockState.PAUSED:
+        store.activeClock.continue();
+        break;
+      case ClockState.STOPPED:
+        store.activeClock.start();
+        break;
+      case ClockState.RUNNING:
+        store.activeClock.pause();
+        break;
+    }
   }
 };
 </script>

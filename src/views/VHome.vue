@@ -1,10 +1,11 @@
 <template>
   <ion-page>
-    <ion-content class="v-home__content ion-padding v-home__content">
+    <ion-content class="ion-padding">
       <ion-grid class="v-home__grid">
         <ion-row>
-          <ion-col>
+          <ion-col class="v-home__clock-wrapper">
             <c-clock class="v-home__clock" />
+            <!-- TODO: include cycle number (e.g. 1/4) -->
           </ion-col>
         </ion-row>
         <ion-row>
@@ -22,25 +23,31 @@
 
 <script setup lang="ts">
 import { IonPage, IonContent, IonGrid, IonRow, IonCol } from '@ionic/vue';
-import CClock from '@/components/CClock.vue';
 import CPlayPauseButton from '@/components/controls/CPlayPauseButton.vue';
 import CResetButton from '@/components/controls/CResetButton.vue';
+import CClock from '@/components/CClock.vue';
 </script>
 
 <style scoped lang="scss">
 .v-home {
   &__grid {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  &__clock-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
   }
 
   &__clock {
-    margin-bottom: 5rem;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 1rem;
   }
 
   &__clock-controller {

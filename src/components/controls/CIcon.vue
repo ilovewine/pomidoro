@@ -1,6 +1,6 @@
 <template>
-  <span class="c-icon__background">
-    <ion-icon :icon="icon" size="large" class="c-icon" />
+  <span class="c-icon" :class="{ disabled }">
+    <ion-icon :icon="icon" class="c-icon__svg icon-large" :class="{ disabled }" />
   </span>
 </template>
 
@@ -12,20 +12,31 @@ defineProps({
     type: String,
     required: true,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 </script>
 
 <style scoped lang="scss">
 .c-icon {
-  &__background {
-    border-radius: 50%;
-    background-color: var(--ion-color-medium-tint);
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    aspect-ratio: 1 / 1;
-    cursor: pointer;
+  border-radius: 50%;
+  background-color: var(--ion-color-medium-shade);
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  &.disabled {
+    background-color: var(--ion-color-light-shade);
+  }
+
+  &__svg {
+    &.disabled {
+      color: var(--ion-color-medium-contrast);
+    }
   }
 }
 </style>
