@@ -39,8 +39,8 @@
 </template>
 
 <script setup lang="ts">
-import CSettingBlock from '@/components/CSettingBlock.vue';
-import CTimeSelect from '@/components/CTimeSelect.vue';
+import CSettingBlock from '@/components/settings/CSettingBlock.vue';
+import CTimeSelect from '@/components/settings/CTimeSelect.vue';
 import { useStore } from '@/stores/clock';
 import { ClockType } from '@/types/ClockType';
 import {
