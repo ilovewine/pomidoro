@@ -6,11 +6,18 @@
 import CIcon from '@/components/controls/CIcon.vue';
 import { useStore } from '@/stores/clock';
 import { refreshOutline } from 'ionicons/icons';
+import { Dialog } from '@capacitor/dialog';
 
 const store = useStore();
 
-const onResetButtonClick = () => {
-  // TODO: pomidoro#12 prompt user to confirm
-  store.restartAllClocks();
+const onResetButtonClick = async () => {
+  const isConfirmed = await Dialog.confirm({
+    title: 'Confirm',
+    message:
+      'Are you sure you wish to reset? You will lose the current state, including the clock time left and the cycle count.',
+    okButtonTitle: 'Yes',
+    cancelButtonTitle: 'No',
+  });
+  if (isConfirmed.value) store.restartAllClocks();
 };
 </script>

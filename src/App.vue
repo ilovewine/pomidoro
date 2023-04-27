@@ -20,4 +20,7 @@
 <script setup lang="ts">
 import { IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonTabButton, IonLabel, IonIcon } from '@ionic/vue';
 import { timeOutline, settingsOutline } from 'ionicons/icons';
+import { BackgroundMode } from '@awesome-cordova-plugins/background-mode';
+
+BackgroundMode.enable();
 </script>
