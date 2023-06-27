@@ -5,17 +5,19 @@ import { defineStore } from 'pinia';
 import Clock from './Clock';
 import Time from './Time';
 
-const DEFAULT_DURATION = {
-  [ClockType.BREAK]: new Time(5, 0, ClockType.BREAK),
-  [ClockType.WORK]: new Time(25, 0, ClockType.WORK),
-  [ClockType.LONG_BREAK]: new Time(30, 0, ClockType.LONG_BREAK),
-};
-
-// const DEFAULT_DURATION: Record<ClockType, Time> = {
-//   [ClockType.BREAK]: new Time(0, 5, ClockType.BREAK),
-//   [ClockType.WORK]: new Time(0, 4, ClockType.WORK),
-//   [ClockType.LONG_BREAK]: new Time(0, 3, ClockType.LONG_BREAK),
+// const DEFAULT_DURATION = {
+//   [ClockType.BREAK]: new Time(5, 0, ClockType.BREAK),
+//   [ClockType.WORK]: new Time(25, 0, ClockType.WORK),
+//   [ClockType.LONG_BREAK]: new Time(30, 0, ClockType.LONG_BREAK),
 // };
+
+const CYCLES_MAX = 4;
+
+const DEFAULT_DURATION: Record<ClockType, Time> = {
+  [ClockType.BREAK]: new Time(0, 5, ClockType.BREAK),
+  [ClockType.WORK]: new Time(0, 4, ClockType.WORK),
+  [ClockType.LONG_BREAK]: new Time(0, 3, ClockType.LONG_BREAK),
+};
 
 const createClockMap = (): Map<ClockType, Clock> => {
   const map = new Map();
@@ -30,7 +32,10 @@ export const useStore = defineStore('clock', {
     clock: createClockMap(),
     durationSettings: DEFAULT_DURATION,
     activeClockType: ClockType.WORK,
-    cycle: 0,
+    cycle: {
+      current: 0,
+      max: CYCLES_MAX,
+    },
   }),
   getters: {
     activeClock(): Clock {
@@ -64,8 +69,8 @@ export const useStore = defineStore('clock', {
       this.restartClock(this.activeClockType);
     },
     setNextCycle() {
-      ++this.cycle;
-      this.cycle %= 4;
+      ++this.cycle.current;
+      this.cycle.current %= this.cycle.max;
       if (!this.cycle) this.setActiveClock(ClockType.LONG_BREAK);
     },
   },

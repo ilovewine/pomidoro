@@ -6,5 +6,8 @@ export default interface State {
   clock: Map<ClockType, Clock>;
   durationSettings: Record<ClockType, Time>;
   activeClockType: ClockType;
-  cycle: number;
+  cycle: {
+    max: number;
+    current: number;
+  };
 }
