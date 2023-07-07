@@ -68,6 +68,9 @@ export const useStore = defineStore('clock', {
       this.durationSettings[newTimer.type] = newTimer;
       this.restartClock(this.activeClockType);
     },
+    setMaxCycles(newMaxCycles: number) {
+      this.cycle.max = newMaxCycles;
+    },
     setNextCycle() {
       ++this.cycle.current;
       this.cycle.current %= this.cycle.max;
