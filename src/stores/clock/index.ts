@@ -85,7 +85,6 @@ export const useStore = defineStore('clock', {
             this.setActiveClock(ClockType.LONG_BREAK);
             break;
           }
-          this.setNextCycle();
           this.setActiveClock(ClockType.WORK);
           break;
         case ClockType.WORK:
@@ -93,6 +92,7 @@ export const useStore = defineStore('clock', {
           break;
         case ClockType.LONG_BREAK:
           this.restartAllClocks();
+          this.setNextCycle();
           this.setActiveClock(ClockType.WORK);
       }
       this.activeClock.start();
