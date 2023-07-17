@@ -10,8 +10,9 @@ import Time from './Time';
 //   [ClockType.WORK]: new Time(25, 0, ClockType.WORK),
 //   [ClockType.LONG_BREAK]: new Time(30, 0, ClockType.LONG_BREAK),
 // };
+// const DEFAULT_MAX_CYCLES = 4;
 
-const CYCLES_MAX = 4;
+const DEFAULT_MAX_CYCLES = 2;
 
 const DEFAULT_DURATION: Record<ClockType, Time> = {
   [ClockType.BREAK]: new Time(0, 5, ClockType.BREAK),
@@ -34,7 +35,7 @@ export const useStore = defineStore('clock', {
     activeClockType: ClockType.WORK,
     cycle: {
       current: 0,
-      max: CYCLES_MAX,
+      max: DEFAULT_MAX_CYCLES,
     },
   }),
   getters: {
@@ -74,7 +75,27 @@ export const useStore = defineStore('clock', {
     setNextCycle() {
       ++this.cycle.current;
       this.cycle.current %= this.cycle.max;
-      if (!this.cycle) this.setActiveClock(ClockType.LONG_BREAK);
+    },
+    changeClock() {
+      this.restartClock(this.activeClockType);
+      this.activeClock.stop();
+      switch (this.activeClockType) {
+        case ClockType.BREAK:
+          if (!this.cycle.current) {
+            this.setActiveClock(ClockType.LONG_BREAK);
+            break;
+          }
+          this.setNextCycle();
+          this.setActiveClock(ClockType.WORK);
+          break;
+        case ClockType.WORK:
+          this.setActiveClock(ClockType.BREAK);
+          break;
+        case ClockType.LONG_BREAK:
+          this.restartAllClocks();
+          this.setActiveClock(ClockType.WORK);
+      }
+      this.activeClock.start();
     },
   },
 });
