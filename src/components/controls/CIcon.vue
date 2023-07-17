@@ -23,7 +23,7 @@ defineProps({
 .c-icon {
   border-radius: 50%;
   background-color: var(--ion-color-medium-shade);
-  padding: 2rem;
+  padding: 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;

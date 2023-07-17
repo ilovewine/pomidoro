@@ -3,9 +3,14 @@
     <ion-content class="ion-padding">
       <ion-grid class="v-home__grid">
         <ion-row>
+          <ion-col>
+            <h1 class="v-home__clock-type">{{ activeClockType }}</h1>
+          </ion-col>
+        </ion-row>
+        <ion-row>
           <ion-col class="v-home__clock-wrapper">
             <c-clock class="v-home__clock" />
-            <!-- TODO: pomidoro#13 include cycle number (e.g. 1/4) -->
+            <h2 class="v-home__cycle">{{ currentCycle }}/{{ maxCycles }}</h2>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -26,15 +31,33 @@ import { IonPage, IonContent, IonGrid, IonRow, IonCol } from '@ionic/vue';
 import CPlayPauseButton from '@/components/controls/CPlayPauseButton.vue';
 import CResetButton from '@/components/controls/CResetButton.vue';
 import CClock from '@/components/CClock.vue';
+import { useStore } from '@/stores/clock';
+import { computed } from 'vue';
+
+const store = useStore();
+
+const activeClockType = computed(() => store.activeClockType);
+const currentCycle = computed(() => store.cycle.current + 1);
+const maxCycles = computed(() => store.cycle.max);
 </script>
 
 <style scoped lang="scss">
 .v-home {
+  &__cycle {
+    text-align: center;
+  }
+
+  &__clock-type {
+    text-align: center;
+    font-size: 2.5rem;
+  }
+
   &__grid {
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    padding: 1rem;
   }
 
   &__clock-wrapper {

@@ -1,5 +1,5 @@
 <template>
-  <ion-page>
+  <ion-page class="v-settings">
     <ion-header>
       <ion-toolbar>
         <ion-title>Settings</ion-title>
@@ -11,12 +11,12 @@
         <ion-row>
           <ion-col>
             <ion-list>
-              <c-setting-block label="Dark Mode">
-                <ion-toggle color="primary" />
-              </c-setting-block>
-              <c-setting-block label="Enable Milliseconds">
-                <ion-toggle color="primary" />
-              </c-setting-block>
+              <ion-item>
+                <ion-toggle color="primary">Dark Mode</ion-toggle>
+              </ion-item>
+              <ion-item>
+                <ion-toggle color="primary">Enable Milliseconds</ion-toggle>
+              </ion-item>
               <c-setting-block label="Work Timer">
                 <c-time-select :timer="workTimer" />
               </c-setting-block>
@@ -26,10 +26,15 @@
               <c-setting-block label="Long Break Timer">
                 <c-time-select :timer="longBreakTimer" />
               </c-setting-block>
-              <c-setting-block label="Number of Cycles">
-                <ion-input type="number" placeholder="4" />
-              </c-setting-block>
-              <!-- TODO: pomidoro#13 set cycle number -->
+              <ion-item>
+                <ion-input
+                  label="Amount of Cycles"
+                  type="number"
+                  inputmode="decimal"
+                  class="v-settings__cycle"
+                  v-model="store.cycle.max"
+                  :min="1" />
+              </ion-item>
             </ion-list>
           </ion-col>
         </ion-row>
@@ -54,8 +59,9 @@ import {
   IonTitle,
   IonToggle,
   IonToolbar,
+  IonInput,
 } from '@ionic/vue';
-import { computed } from '@vue/reactivity';
+import { computed } from 'vue';
 
 const store = useStore();
 
@@ -63,3 +69,11 @@ const workTimer = computed(() => store.durationSettings[ClockType.WORK]);
 const breakTimer = computed(() => store.durationSettings[ClockType.BREAK]);
 const longBreakTimer = computed(() => store.durationSettings[ClockType.LONG_BREAK]);
 </script>
+
+<style lang="scss" scoped>
+.v-settings {
+  &__cycle {
+    text-align: right;
+  }
+}
+</style>

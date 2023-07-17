@@ -6,10 +6,13 @@ import Clock from './Clock';
 import Time from './Time';
 
 // const DEFAULT_DURATION = {
-//   [clockType.BREAK]: new Time(5, 0, clockType.BREAK),
-//   [clockType.WORK]: new Time(25, 0, clockType.WORK),
-//   [clockType.LONG_BREAK]: new Time(30, 0, clockType.LONG_BREAK),
+//   [ClockType.BREAK]: new Time(5, 0, ClockType.BREAK),
+//   [ClockType.WORK]: new Time(25, 0, ClockType.WORK),
+//   [ClockType.LONG_BREAK]: new Time(30, 0, ClockType.LONG_BREAK),
 // };
+// const DEFAULT_MAX_CYCLES = 4;
+
+const DEFAULT_MAX_CYCLES = 2;
 
 const DEFAULT_DURATION: Record<ClockType, Time> = {
   [ClockType.BREAK]: new Time(0, 5, ClockType.BREAK),
@@ -30,7 +33,10 @@ export const useStore = defineStore('clock', {
     clock: createClockMap(),
     durationSettings: DEFAULT_DURATION,
     activeClockType: ClockType.WORK,
-    cycle: 0,
+    cycle: {
+      current: 0,
+      max: DEFAULT_MAX_CYCLES,
+    },
   }),
   getters: {
     activeClock(): Clock {
@@ -63,10 +69,33 @@ export const useStore = defineStore('clock', {
       this.durationSettings[newTimer.type] = newTimer;
       this.restartClock(this.activeClockType);
     },
+    setMaxCycles(newMaxCycles: number) {
+      this.cycle.max = newMaxCycles;
+    },
     setNextCycle() {
-      ++this.cycle;
-      this.cycle %= 4;
-      if (!this.cycle) this.setActiveClock(ClockType.LONG_BREAK);
+      ++this.cycle.current;
+      this.cycle.current %= this.cycle.max;
+    },
+    changeClock() {
+      this.restartClock(this.activeClockType);
+      this.activeClock.stop();
+      switch (this.activeClockType) {
+        case ClockType.BREAK:
+          if (!this.cycle.current) {
+            this.setActiveClock(ClockType.LONG_BREAK);
+            break;
+          }
+          this.setNextCycle();
+          this.setActiveClock(ClockType.WORK);
+          break;
+        case ClockType.WORK:
+          this.setActiveClock(ClockType.BREAK);
+          break;
+        case ClockType.LONG_BREAK:
+          this.restartAllClocks();
+          this.setActiveClock(ClockType.WORK);
+      }
+      this.activeClock.start();
     },
   },
 });

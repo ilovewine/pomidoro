@@ -6,18 +6,15 @@
       </svg>
     </transition>
   </div>
-  <ion-text class="c-clock__name">{{ activeClockType }}</ion-text>
 </template>
 
 <script setup lang="ts">
 import { useStore } from '@/stores/clock';
-import { IonText } from '@ionic/vue';
 import { computed } from 'vue';
 
 const store = useStore();
 
 const activeClock = computed(() => store.activeClock);
-const activeClockType = computed(() => store.activeClockType);
 </script>
 
 <style scoped lang="scss">
@@ -28,7 +25,6 @@ const activeClockType = computed(() => store.activeClockType);
   border-radius: 50%;
   background-color: rgba(#eb2727, 1);
   position: relative;
-  cursor: pointer;
   margin-bottom: 2rem;
 
   &__time {
@@ -40,10 +36,6 @@ const activeClockType = computed(() => store.activeClockType);
     width: 80%;
     margin: 0;
     fill: var(--ion-color-light);
-  }
-
-  &__name {
-    font-size: 2rem;
   }
 }
 </style>
