@@ -12,10 +12,19 @@
           <ion-col>
             <ion-list>
               <ion-item>
-                <ion-toggle color="primary">Dark Mode</ion-toggle>
+                <ion-toggle color="primary" enable-on-off-labels v-model="settingsStore.isDarkModeOn">
+                  Dark Mode
+                </ion-toggle>
               </ion-item>
               <ion-item>
-                <ion-toggle color="primary">Enable Milliseconds</ion-toggle>
+                <ion-toggle color="primary" enable-on-off-labels v-model="settingsStore.isMillisecondsOn">
+                  Enable Milliseconds
+                </ion-toggle>
+              </ion-item>
+              <ion-item>
+                <ion-toggle color="primary" enable-on-off-labels v-model="settingsStore.isSoundsOn">
+                  Enable Sounds
+                </ion-toggle>
               </ion-item>
               <c-setting-block label="Work Timer">
                 <c-time-select :timer="workTimer" />
@@ -32,7 +41,7 @@
                   type="number"
                   inputmode="decimal"
                   class="v-settings__cycle"
-                  v-model="store.cycle.max"
+                  v-model="clockStore.cycle.max"
                   :min="1" />
               </ion-item>
             </ion-list>
@@ -46,8 +55,8 @@
 <script setup lang="ts">
 import CSettingBlock from '@/components/settings/CSettingBlock.vue';
 import CTimeSelect from '@/components/settings/CTimeSelect.vue';
-import { useStore } from '@/stores/clock';
-import { ClockType } from '@/types/ClockType';
+import useClockStore from '@/stores/clock';
+import { ClockType } from '@/types/clock/ClockType';
 import {
   IonCol,
   IonContent,
@@ -62,12 +71,14 @@ import {
   IonInput,
 } from '@ionic/vue';
 import { computed } from 'vue';
+import useSettingsStore from '@/stores/settings';
 
-const store = useStore();
+const clockStore = useClockStore();
+const settingsStore = useSettingsStore();
 
-const workTimer = computed(() => store.durationSettings[ClockType.WORK]);
-const breakTimer = computed(() => store.durationSettings[ClockType.BREAK]);
-const longBreakTimer = computed(() => store.durationSettings[ClockType.LONG_BREAK]);
+const workTimer = computed(() => clockStore.durationSettings[ClockType.WORK]);
+const breakTimer = computed(() => clockStore.durationSettings[ClockType.BREAK]);
+const longBreakTimer = computed(() => clockStore.durationSettings[ClockType.LONG_BREAK]);
 </script>
 
 <style lang="scss" scoped>

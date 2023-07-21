@@ -4,10 +4,10 @@
 
 <script setup lang="ts">
 import { IonInput } from '@ionic/vue';
-import { useStore } from '@/stores/clock';
+import useClockStore from '@/stores/clock';
 import { computed } from 'vue';
 
-const store = useStore();
+const store = useClockStore();
 
 const cycle = computed(() => store.cycle.toString());
 </script>

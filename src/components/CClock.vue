@@ -9,10 +9,10 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from '@/stores/clock';
+import useClockStore from '@/stores/clock';
 import { computed } from 'vue';
 
-const store = useStore();
+const store = useClockStore();
 
 const activeClock = computed(() => store.activeClock);
 </script>

@@ -31,10 +31,10 @@ import { IonPage, IonContent, IonGrid, IonRow, IonCol } from '@ionic/vue';
 import CPlayPauseButton from '@/components/controls/CPlayPauseButton.vue';
 import CResetButton from '@/components/controls/CResetButton.vue';
 import CClock from '@/components/CClock.vue';
-import { useStore } from '@/stores/clock';
+import useClockStore from '@/stores/clock';
 import { computed } from 'vue';
 
-const store = useStore();
+const store = useClockStore();
 
 const activeClockType = computed(() => store.activeClockType);
 const currentCycle = computed(() => store.cycle.current + 1);

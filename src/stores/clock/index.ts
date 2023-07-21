@@ -1,9 +1,11 @@
-import ClockState from '@/types/ClockState.type';
-import { ClockType } from '@/types/ClockType';
-import State from '@/types/Store.interface';
+import ClockState from '@/types/clock/ClockState.type';
+import { ClockType } from '@/types/clock/ClockType';
+import State from '@/types/clock/ClockStore.interface';
 import { defineStore } from 'pinia';
 import Clock from './Clock';
 import Time from './Time';
+import { Haptics } from '@capacitor/haptics';
+import useSettingsStore from '@/stores/settings';
 
 // const DEFAULT_DURATION = {
 //   [ClockType.BREAK]: new Time(5, 0, ClockType.BREAK),
@@ -28,7 +30,7 @@ const createClockMap = (): Map<ClockType, Clock> => {
   return map;
 };
 
-export const useStore = defineStore('clock', {
+const useClockStore = defineStore('clock', {
   state: (): State => ({
     clock: createClockMap(),
     durationSettings: DEFAULT_DURATION,
@@ -76,16 +78,19 @@ export const useStore = defineStore('clock', {
       ++this.cycle.current;
       this.cycle.current %= this.cycle.max;
     },
-    changeClock() {
+    async changeClock() {
+      const settingsStore = useSettingsStore();
+
       this.restartClock(this.activeClockType);
       this.activeClock.stop();
+      await Haptics.vibrate();
+      settingsStore.playSound();
       switch (this.activeClockType) {
         case ClockType.BREAK:
           if (!this.cycle.current) {
             this.setActiveClock(ClockType.LONG_BREAK);
             break;
           }
-          this.setNextCycle();
           this.setActiveClock(ClockType.WORK);
           break;
         case ClockType.WORK:
@@ -93,9 +98,12 @@ export const useStore = defineStore('clock', {
           break;
         case ClockType.LONG_BREAK:
           this.restartAllClocks();
+          this.setNextCycle();
           this.setActiveClock(ClockType.WORK);
       }
       this.activeClock.start();
     },
   },
 });
+
+export default useClockStore;

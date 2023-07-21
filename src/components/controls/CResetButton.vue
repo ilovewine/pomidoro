@@ -4,11 +4,11 @@
 
 <script setup lang="ts">
 import CIcon from '@/components/controls/CIcon.vue';
-import { useStore } from '@/stores/clock';
+import useClockStore from '@/stores/clock';
 import { refreshOutline } from 'ionicons/icons';
 import { Dialog } from '@capacitor/dialog';
 
-const store = useStore();
+const store = useClockStore();
 
 const onResetButtonClick = async () => {
   const isConfirmed = await Dialog.confirm({

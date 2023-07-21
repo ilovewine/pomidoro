@@ -10,14 +10,15 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "pretty": "prettier --write .",
     "ionic:serve": "npm start",
-    "ionic:build": "npm run build"
+    "ionic:build": "npm run build",
+    "generate": "ionic build && ionic cap copy && ionic cap sync"
   },
   "dependencies": {
     "@capacitor/android": "^5.0.1",
     "@capacitor/app": "^5.0.1",
     "@capacitor/core": "^5.0.1",
     "@capacitor/dialog": "^5.0.1",
-    "@capacitor/haptics": "^5.0.1",
+    "@capacitor/haptics": "^5.0.6",
     "@capacitor/keyboard": "^5.0.1",
     "@capacitor/status-bar": "^5.0.1",
     "@ionic/vue": "^7.0.5",

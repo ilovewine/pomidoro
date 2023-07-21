@@ -1,4 +1,4 @@
-import { ClockType } from '@/types/ClockType';
+import { ClockType } from '@/types/clock/ClockType';
 
 const convertToTimeElement = (time: number): string => time.toString().padStart(2, '0');
 

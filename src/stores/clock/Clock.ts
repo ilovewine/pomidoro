@@ -1,6 +1,6 @@
 import Time from '@/stores/clock/Time';
-import ClockState from '@/types/ClockState.type';
-import { useStore } from '@/stores/clock';
+import ClockState from '@/types/clock/ClockState.type';
+import useClockStore from '@/stores/clock';
 
 const MILLISECONDS_INTERVAL_DURATION = 10;
 
@@ -8,7 +8,7 @@ export default class Clock {
   private interval = 0;
   public state: ClockState = ClockState.STOPPED;
   private milliseconds = 1000;
-  private store = useStore();
+  private store = useClockStore();
 
   constructor(public time: Time) {
     // de-reference the time object
@@ -16,12 +16,12 @@ export default class Clock {
   }
 
   clockTick() {
-    this.interval = window.setInterval(() => {
+    this.interval = window.setInterval(async () => {
       this.milliseconds -= MILLISECONDS_INTERVAL_DURATION;
       if (this.milliseconds === 0) {
         if (this.time.seconds === 0) {
           if (this.time.minutes === 0) {
-            this.store.changeClock();
+            await this.store.changeClock();
           } else {
             --this.time.minutes;
             this.time.seconds = Time.SECONDS_IN_ONE_MINUTE - 1;
