@@ -5,6 +5,7 @@ import { defineStore } from 'pinia';
 import Clock from './Clock';
 import Time from './Time';
 import { Haptics } from '@capacitor/haptics';
+import useSettingsStore from '@/stores/settings';
 
 // const DEFAULT_DURATION = {
 //   [ClockType.BREAK]: new Time(5, 0, ClockType.BREAK),
@@ -78,9 +79,12 @@ const useClockStore = defineStore('clock', {
       this.cycle.current %= this.cycle.max;
     },
     async changeClock() {
+      const settingsStore = useSettingsStore();
+
       this.restartClock(this.activeClockType);
       this.activeClock.stop();
       await Haptics.vibrate();
+      settingsStore.playSound();
       switch (this.activeClockType) {
         case ClockType.BREAK:
           if (!this.cycle.current) {
