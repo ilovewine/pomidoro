@@ -2,10 +2,5 @@
 	"appId": "io.ionic.starter",
 	"appName": "Pomidoro",
 	"webDir": "dist",
-	"bundledWebRuntime": false,
-	"plugins": {
-		"LocalNotifications": {
-			"sound": "src/resources/audio/defaultBeep.wav"
-		}
-	}
+	"bundledWebRuntime": false
 }
