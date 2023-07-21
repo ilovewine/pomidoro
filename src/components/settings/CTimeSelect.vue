@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from '@/stores/clock';
+import useClockStore from '@/stores/clock';
 import Time from '@/stores/clock/Time';
 import { IonButton, pickerController } from '@ionic/vue';
 import { PropType } from 'vue';
@@ -17,7 +17,7 @@ const props = defineProps({
   },
 });
 
-const store = useStore();
+const store = useClockStore();
 
 const createOptionsColumn = (atom: 'minutes' | 'seconds') =>
   Array.from({ length: atom === 'minutes' ? 100 : Time.SECONDS_IN_ONE_MINUTE }, (_, i) => ({

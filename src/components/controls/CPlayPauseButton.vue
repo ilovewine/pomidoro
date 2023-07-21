@@ -4,12 +4,12 @@
 
 <script setup lang="ts">
 import CIcon from '@/components/controls/CIcon.vue';
-import { useStore } from '@/stores/clock';
-import ClockState from '@/types/ClockState.type';
+import useClockStore from '@/stores/clock';
+import ClockState from '@/types/clock/ClockState.type';
 import { pauseOutline, playOutline } from 'ionicons/icons';
 import { computed } from 'vue';
 
-const store = useStore();
+const store = useClockStore();
 
 const icon = computed(() => (store.getClockState === ClockState.RUNNING ? pauseOutline : playOutline));
 
