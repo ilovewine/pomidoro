@@ -68,8 +68,6 @@ const maxCycles = computed(() => store.cycle.max);
   }
 
   &__clock {
-    margin-left: auto;
-    margin-right: auto;
     margin-bottom: 1rem;
   }
 
