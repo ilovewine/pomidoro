@@ -1,5 +1,6 @@
 import SettingsStore from '@/types/settings/SettingsStore.interface';
 import { defineStore } from 'pinia';
+// @ts-ignore
 import defaultBeep from '@/resources/audio/defaultBeep.wav';
 import { ClockType } from '@/types/clock/ClockType';
 import useClockStore from '@/stores/clock';
