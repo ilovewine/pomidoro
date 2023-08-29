@@ -44,6 +44,12 @@
                   v-model="clockStore.cycle.max"
                   :min="1" />
               </ion-item>
+              <c-setting-block
+                v-for="clockType of Object.values(ClockType)"
+                :key="clockType"
+                :label="`${clockType} Tomato Color`">
+                <c-color-picker v-model="colors[clockType]" />
+              </c-setting-block>
             </ion-list>
           </ion-col>
         </ion-row>
@@ -55,6 +61,7 @@
 <script setup lang="ts">
 import CSettingBlock from '@/components/settings/CSettingBlock.vue';
 import CTimeSelect from '@/components/settings/CTimeSelect.vue';
+import CColorPicker from '@/components/settings/CColorPicker.vue';
 import useClockStore from '@/stores/clock';
 import { ClockType } from '@/types/clock/ClockType';
 import {
@@ -69,6 +76,7 @@ import {
   IonToggle,
   IonToolbar,
   IonInput,
+  IonItem,
 } from '@ionic/vue';
 import { computed } from 'vue';
 import useSettingsStore from '@/stores/settings';
@@ -79,6 +87,8 @@ const settingsStore = useSettingsStore();
 const workTimer = computed(() => clockStore.durationSettings[ClockType.WORK]);
 const breakTimer = computed(() => clockStore.durationSettings[ClockType.BREAK]);
 const longBreakTimer = computed(() => clockStore.durationSettings[ClockType.LONG_BREAK]);
+
+const colors = settingsStore.colors;
 </script>
 
 <style lang="scss" scoped>

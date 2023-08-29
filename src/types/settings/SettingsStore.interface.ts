@@ -7,5 +7,5 @@ export default interface SettingsStore {
   isMillisecondsOn: boolean;
   isSoundsOn: boolean;
   sound: HTMLAudioElement;
-  colors: Record<ClockType, Record<TomatoIconFill, string>>;
+  colors: Record<ClockType, string>;
 }

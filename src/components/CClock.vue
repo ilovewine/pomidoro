@@ -1,9 +1,6 @@
 <template>
   <div class="c-clock">
-    <tomato-icon
-      :primary-fill="currentColor.primary"
-      :secondary-fill="currentColor.secondary"
-      :time="activeClock.readableTime" />
+    <tomato-icon :primary-fill="currentColor" :time="activeClock.readableTime" />
   </div>
 </template>
 

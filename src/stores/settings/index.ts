@@ -14,18 +14,9 @@ const useSettingsStore = defineStore('settings', {
     isSoundsOn: true,
     sound: audio,
     colors: {
-      [ClockType.BREAK]: {
-        primary: '#e0c111',
-        secondary: '#1d6113',
-      },
-      [ClockType.WORK]: {
-        primary: '#b90505',
-        secondary: '#1d6113',
-      },
-      [ClockType.LONG_BREAK]: {
-        primary: '#380808',
-        secondary: '#1d6113',
-      },
+      [ClockType.BREAK]: '#e0c111',
+      [ClockType.WORK]: '#b90505',
+      [ClockType.LONG_BREAK]: '#380808',
     },
   }),
   getters: {

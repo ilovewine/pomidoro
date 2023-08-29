@@ -1,5 +1,5 @@
 export enum ClockType {
-  BREAK = 'break',
-  WORK = 'work',
-  LONG_BREAK = 'longBreak',
+  BREAK = 'Break',
+  WORK = 'Work',
+  LONG_BREAK = 'Long Break',
 }
