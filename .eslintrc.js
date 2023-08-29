@@ -1,4 +1,4 @@
-module.exports = {
+const module = {
   root: true,
   env: {
     es2021: true,
@@ -8,10 +8,11 @@ module.exports = {
     ecmaVersion: 2020,
   },
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-console': import.meta.env.PROD ? 'warn' : 'off',
+    'no-debugger': import.meta.env.PROD ? 'warn' : 'off',
     'vue/no-deprecated-slot-attribute': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/ban-ts-comment': 'warn',
   },
   overrides: [
     {
@@ -28,3 +29,5 @@ module.exports = {
     withDefaults: 'readonly',
   },
 };
+
+export default module;
