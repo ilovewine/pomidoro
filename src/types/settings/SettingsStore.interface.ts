@@ -4,7 +4,7 @@ type TomatoIconFill = 'primary' | 'secondary';
 
 export default interface SettingsStore {
   isDarkModeOn: boolean;
-  isMillisecondsOn: boolean;
+  isCentisecondsOn: boolean;
   isSoundsOn: boolean;
   sound: HTMLAudioElement;
   colors: Record<ClockType, string>;

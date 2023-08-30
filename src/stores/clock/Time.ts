@@ -1,6 +1,6 @@
 import { ClockType } from '@/types/clock/ClockType';
 
-const convertToTimeElement = (time: number): string => time.toString().padStart(2, '0');
+export const convertToTimeElement = (time: number): string => time.toString().padStart(2, '0');
 
 export default class Time {
   static SECONDS_IN_ONE_MINUTE = 60;

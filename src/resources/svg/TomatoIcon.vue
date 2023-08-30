@@ -37,7 +37,7 @@ defineProps<{
 <style scoped lang="scss">
 .c-tomato {
   &__time {
-    font-size: 0.625rem;
+    font-size: 0.5rem;
     mix-blend-mode: exclusion;
   }
   &__transition {
