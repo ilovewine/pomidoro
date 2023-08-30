@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import VHome from '@/views/VHome.vue';
 import VSettings from '@/views/VSettings.vue';
+import VAbout from '@/views/VAbout.vue';
 
 interface Import extends ImportMeta {
   env: Record<string, string>;
@@ -19,6 +20,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/settings',
     component: VSettings,
+  },
+  {
+    path: '/about',
+    component: VAbout,
   },
 ];
 
