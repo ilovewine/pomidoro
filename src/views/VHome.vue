@@ -10,7 +10,16 @@
         <ion-row>
           <ion-col class="v-home__clock-wrapper">
             <c-clock class="v-home__clock" />
-            <h2 class="v-home__cycle">{{ currentCycle }}/{{ maxCycles }}</h2>
+            <ion-grid class="v-home__cycles">
+              <ion-row>
+                <ion-col>
+                  <h3 class="v-home__cycle">Session: {{ currentSession }}/{{ maxSessions }}</h3>
+                </ion-col>
+                <ion-col>
+                  <h3 class="v-home__cycle">Cycle: {{ currentCycle }}/{{ maxCycles }}</h3>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -37,6 +46,8 @@ import { computed } from 'vue';
 const store = useClockStore();
 
 const activeClockType = computed(() => store.activeClockType);
+const currentSession = computed(() => store.sessions.current + 1);
+const maxSessions = computed(() => store.sessions.max);
 const currentCycle = computed(() => store.cycle.current + 1);
 const maxCycles = computed(() => store.cycle.max);
 </script>
@@ -45,6 +56,10 @@ const maxCycles = computed(() => store.cycle.max);
 .v-home {
   &__cycle {
     text-align: center;
+  }
+
+  &__cycles {
+    width: 100%;
   }
 
   &__clock-type {
