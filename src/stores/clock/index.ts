@@ -17,8 +17,8 @@ import useSettingsStore from '@/stores/settings';
 const DEFAULT_MAX_CYCLES = 2;
 
 const DEFAULT_DURATION: Record<ClockType, Time> = {
-  [ClockType.BREAK]: new Time(0, 5, ClockType.BREAK),
   [ClockType.WORK]: new Time(0, 4, ClockType.WORK),
+  [ClockType.BREAK]: new Time(0, 5, ClockType.BREAK),
   [ClockType.LONG_BREAK]: new Time(0, 3, ClockType.LONG_BREAK),
 };
 
