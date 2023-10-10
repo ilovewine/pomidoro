@@ -9,9 +9,6 @@
     <ion-content class="ion-padding">
       <ion-list>
         <ion-item>
-          <ion-toggle color="primary" enable-on-off-labels v-model="settingsStore.isDarkModeOn">Dark Mode</ion-toggle>
-        </ion-item>
-        <ion-item>
           <ion-toggle color="primary" enable-on-off-labels v-model="settingsStore.isCentisecondsOn">
             Enable Centiseconds
           </ion-toggle>

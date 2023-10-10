@@ -9,7 +9,6 @@ const audio = new Audio(defaultBeep);
 
 const useSettingsStore = defineStore('settings', {
   state: (): SettingsStore => ({
-    isDarkModeOn: false,
     isCentisecondsOn: false,
     isSoundsOn: true,
     sound: audio,
