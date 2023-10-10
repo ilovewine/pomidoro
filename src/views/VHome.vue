@@ -69,6 +69,7 @@ const maxCycles = computed(() => store.cycle.max);
 
   &__grid {
     height: 100%;
+    max-width: 35rem;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
