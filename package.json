@@ -1,6 +1,6 @@
 {
   "name": "pomidoro",
-  "description": "Pomidoro pomodoro app for time tracking managment",
+  "description": "Pomidoro pomodoro app for time tracking management",
   "version": "0.0.1",
   "private": true,
   "scripts": {

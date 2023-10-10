@@ -27,7 +27,16 @@
         </c-setting-block>
         <ion-item>
           <ion-input
-            label="Amount of Cycles"
+            label="Work Sessions"
+            type="number"
+            inputmode="decimal"
+            class="v-settings__cycle"
+            v-model="clockStore.sessions.max"
+            :min="1" />
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Cycles"
             type="number"
             inputmode="decimal"
             class="v-settings__cycle"

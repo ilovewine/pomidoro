@@ -12,9 +12,11 @@ import useSettingsStore from '@/stores/settings';
 //   [ClockType.WORK]: new Time(25, 0, ClockType.WORK),
 //   [ClockType.LONG_BREAK]: new Time(30, 0, ClockType.LONG_BREAK),
 // };
+// const DEFAULT_MAX_WORK_SESSIONS = 4;
 // const DEFAULT_MAX_CYCLES = 4;
 
-const DEFAULT_MAX_CYCLES = 2;
+const DEFAULT_MAX_WORK_SESSIONS = 2;
+const DEFAULT_MAX_CYCLES = 4;
 
 const DEFAULT_DURATION: Record<ClockType, Time> = {
   [ClockType.WORK]: new Time(0, 4, ClockType.WORK),
@@ -35,6 +37,10 @@ const useClockStore = defineStore('clock', {
     clock: createClockMap(),
     durationSettings: DEFAULT_DURATION,
     activeClockType: ClockType.WORK,
+    sessions: {
+      current: 0,
+      max: DEFAULT_MAX_WORK_SESSIONS,
+    },
     cycle: {
       current: 0,
       max: DEFAULT_MAX_CYCLES,
@@ -57,9 +63,11 @@ const useClockStore = defineStore('clock', {
       this.clock.set(type, new Clock(time));
     },
     restartClock(clockType: ClockType) {
+      this.activeClock.stop();
       this.setClock(clockType, this.getSetting(clockType));
     },
     restartAllClocks() {
+      this.activeClock.stop();
       this.clock.forEach((_, clockType) => {
         this.restartClock(clockType);
       });
@@ -72,22 +80,24 @@ const useClockStore = defineStore('clock', {
       this.restartClock(this.activeClockType);
     },
     setMaxCycles(newMaxCycles: number) {
-      this.cycle.max = newMaxCycles;
+      this.sessions.max = newMaxCycles;
     },
     setNextCycle() {
       ++this.cycle.current;
-      this.cycle.current %= this.cycle.max;
+    },
+    setNextPomodoro() {
+      ++this.sessions.current;
+      this.sessions.current %= this.sessions.max;
     },
     async changeClock() {
       const settingsStore = useSettingsStore();
 
       this.restartClock(this.activeClockType);
-      this.activeClock.stop();
       await Haptics.vibrate();
       settingsStore.playSound();
       switch (this.activeClockType) {
         case ClockType.BREAK:
-          if (!this.cycle.current) {
+          if (!this.sessions.current) {
             this.setActiveClock(ClockType.LONG_BREAK);
             break;
           }
@@ -98,7 +108,7 @@ const useClockStore = defineStore('clock', {
           break;
         case ClockType.LONG_BREAK:
           this.restartAllClocks();
-          this.setNextCycle();
+          this.setNextPomodoro();
           this.setActiveClock(ClockType.WORK);
       }
       this.activeClock.start();

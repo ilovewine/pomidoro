@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts" setup>
-import { IonPage, IonContent, IonGrid, IonRow, IonCol } from '@ionic/vue';
+import { IonHeader, IonTitle, IonToolbar, IonPage, IonContent, IonGrid, IonRow, IonCol } from '@ionic/vue';
 </script>
 
 <style lang="scss" scoped>
