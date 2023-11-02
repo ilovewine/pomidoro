@@ -32,9 +32,10 @@ const createClockMap = (): Map<ClockType, Clock> => {
   return map;
 };
 
-const db = useDB();
-
 const useClockStore = defineStore('clock', () => {
+  const settingsStore = useSettingsStore();
+  const db = useDB();
+
   const state = reactive<State>({
     clock: createClockMap(),
     durationSettings: DEFAULT_DURATION,
@@ -76,8 +77,6 @@ const useClockStore = defineStore('clock', () => {
   };
 
   const changeClock = async () => {
-    const settingsStore = useSettingsStore();
-
     restartClock(state.activeClockType);
     activeClock.value.stop();
     await Haptics.vibrate();

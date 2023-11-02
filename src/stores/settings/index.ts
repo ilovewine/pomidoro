@@ -9,9 +9,10 @@ import useDB from '@/services/useDB';
 
 const audio = new Audio(defaultBeep);
 
-const db = useDB();
-
 const useSettingsStore = defineStore('settings', () => {
+  const db = useDB();
+  const clockStore = useClockStore();
+
   const state = reactive<SettingsStore>({
     isDarkModeOn: false,
     isCentisecondsOn: false,
@@ -26,10 +27,7 @@ const useSettingsStore = defineStore('settings', () => {
 
   watch(state, () => db.set('SettingsStore', state));
 
-  const currentColor = computed(() => {
-    const clockStore = useClockStore();
-    return state.colors[clockStore.state.activeClockType];
-  });
+  const currentColor = computed(() => state.colors[clockStore.state.activeClockType]);
 
   const playSound = () => {
     if (state.isSoundsOn) {

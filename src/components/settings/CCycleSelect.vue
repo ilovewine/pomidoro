@@ -9,7 +9,7 @@ import { computed } from 'vue';
 
 const store = useClockStore();
 
-const cycle = computed(() => store.cycle.toString());
+const cycle = computed(() => store.state.cycle.toString());
 </script>
 
 <style scoped lang="scss"></style>

@@ -9,15 +9,19 @@
     <ion-content class="ion-padding">
       <ion-list>
         <ion-item>
-          <ion-toggle color="primary" enable-on-off-labels v-model="settingsStore.isDarkModeOn">Dark Mode</ion-toggle>
+          <ion-toggle color="primary" enable-on-off-labels v-model="settingsStore.state.isDarkModeOn">
+            Dark Mode
+          </ion-toggle>
         </ion-item>
         <ion-item>
-          <ion-toggle color="primary" enable-on-off-labels v-model="settingsStore.isCentisecondsOn">
+          <ion-toggle color="primary" enable-on-off-labels v-model="settingsStore.state.isCentisecondsOn">
             Enable Centiseconds
           </ion-toggle>
         </ion-item>
         <ion-item>
-          <ion-toggle color="primary" enable-on-off-labels v-model="settingsStore.isSoundsOn">Enable Sounds</ion-toggle>
+          <ion-toggle color="primary" enable-on-off-labels v-model="settingsStore.state.isSoundsOn">
+            Enable Sounds
+          </ion-toggle>
         </ion-item>
         <c-setting-block label="Work Timer">
           <c-time-select :timer="workTimer" />
@@ -34,7 +38,7 @@
             type="number"
             inputmode="decimal"
             class="v-settings__cycle"
-            v-model="clockStore.cycle.max"
+            v-model="clockStore.state.cycle.max"
             :min="1" />
         </ion-item>
         <c-setting-block
@@ -71,11 +75,11 @@ import useSettingsStore from '@/stores/settings';
 const clockStore = useClockStore();
 const settingsStore = useSettingsStore();
 
-const workTimer = computed(() => clockStore.durationSettings[ClockType.WORK]);
-const breakTimer = computed(() => clockStore.durationSettings[ClockType.BREAK]);
-const longBreakTimer = computed(() => clockStore.durationSettings[ClockType.LONG_BREAK]);
+const workTimer = computed(() => clockStore.state.durationSettings[ClockType.WORK]);
+const breakTimer = computed(() => clockStore.state.durationSettings[ClockType.BREAK]);
+const longBreakTimer = computed(() => clockStore.state.durationSettings[ClockType.LONG_BREAK]);
 
-const colors = settingsStore.colors;
+const colors = settingsStore.state.colors;
 </script>
 
 <style lang="scss" scoped>

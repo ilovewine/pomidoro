@@ -10,24 +10,23 @@ const db = new Storage({
 const init = async () => {
   await db.defineDriver(CordovaSQLiteDriver);
   await db.create();
-  console.log('INIT', await db.length());
-  db.forEach((key, value) => {
-    console.log([key, value]);
+};
+
+const set = async (key: string, value: unknown) => {
+  await db.set(key, JSON.stringify(value));
+  db.forEach(store => {
+    console.log(store);
   });
 };
 
-const set = async (key: string, value: unknown) => await db.set(key, value);
-
-const get = async (key: string) => await db.get(key);
+const get = async (key: string) => JSON.parse(await db.get(key));
 
 const loadSettings = async () => {
   const settingsStore = useSettingsStore();
   const settings = await get('settings');
-  console.log(settings);
   if (settings) {
-    settingsStore.state.isDarkModeOn = settings.isDarkModeOn;
-    settingsStore.state.isCentisecondsOn = settings.isCentisecondsOn;
-    settingsStore.state.isSoundsOn = settings.isSoundsOn;
+    console.log('SETTINGS', settings);
+    settingsStore.state.isDarkModeOn = { ...settings };
   }
 };
 

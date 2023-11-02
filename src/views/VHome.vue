@@ -36,9 +36,9 @@ import { computed } from 'vue';
 
 const store = useClockStore();
 
-const activeClockType = computed(() => store.activeClockType);
-const currentCycle = computed(() => store.cycle.current + 1);
-const maxCycles = computed(() => store.cycle.max);
+const activeClockType = computed(() => store.state.activeClockType);
+const currentCycle = computed(() => store.state.cycle.current + 1);
+const maxCycles = computed(() => store.state.cycle.max);
 </script>
 
 <style scoped lang="scss">
