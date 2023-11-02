@@ -64,9 +64,9 @@ export default class Clock {
     clearInterval(this.interval);
   }
 
-  get readableTime() {
+  get readableTime(): string {
     return `${this.time.readableTime}${
-      this.settings.isCentisecondsOn ? ':' + convertToTimeElement(this.centiseconds) : ''
+      this.settings.state.isCentisecondsOn ? ':' + convertToTimeElement(this.centiseconds) : ''
     }`;
   }
 }

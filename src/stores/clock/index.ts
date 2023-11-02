@@ -6,6 +6,8 @@ import Clock from './Clock';
 import Time from './Time';
 import { Haptics } from '@capacitor/haptics';
 import useSettingsStore from '@/stores/settings';
+import { computed, reactive, watch } from 'vue';
+import useDB from '@/services/useDB';
 
 // const DEFAULT_DURATION = {
 //   [ClockType.BREAK]: new Time(5, 0, ClockType.BREAK),
@@ -30,8 +32,10 @@ const createClockMap = (): Map<ClockType, Clock> => {
   return map;
 };
 
-const useClockStore = defineStore('clock', {
-  state: (): State => ({
+const db = useDB();
+
+const useClockStore = defineStore('clock', () => {
+  const state = reactive<State>({
     clock: createClockMap(),
     durationSettings: DEFAULT_DURATION,
     activeClockType: ClockType.WORK,
@@ -39,71 +43,79 @@ const useClockStore = defineStore('clock', {
       current: 0,
       max: DEFAULT_MAX_CYCLES,
     },
-  }),
-  getters: {
-    activeClock(): Clock {
-      return this.clock.get(this.activeClockType) as Clock;
-    },
-    getTime(): string {
-      return this.activeClock.readableTime;
-    },
-    getClockState(): ClockState {
-      return this.activeClock.state;
-    },
-    getSetting: state => (type: ClockType) => state.durationSettings[type],
-  },
-  actions: {
-    setClock(type: ClockType, time: Time) {
-      this.clock.set(type, new Clock(time));
-    },
-    restartClock(clockType: ClockType) {
-      this.setClock(clockType, this.getSetting(clockType));
-    },
-    restartAllClocks() {
-      this.clock.forEach((_, clockType) => {
-        this.restartClock(clockType);
-      });
-    },
-    setActiveClock(type: ClockType) {
-      this.activeClockType = type;
-    },
-    setDefaultDurationSettings(newTimer: Time) {
-      this.durationSettings[newTimer.type] = newTimer;
-      this.restartClock(this.activeClockType);
-    },
-    setMaxCycles(newMaxCycles: number) {
-      this.cycle.max = newMaxCycles;
-    },
-    setNextCycle() {
-      ++this.cycle.current;
-      this.cycle.current %= this.cycle.max;
-    },
-    async changeClock() {
-      const settingsStore = useSettingsStore();
+  });
 
-      this.restartClock(this.activeClockType);
-      this.activeClock.stop();
-      await Haptics.vibrate();
-      settingsStore.playSound();
-      switch (this.activeClockType) {
-        case ClockType.BREAK:
-          if (!this.cycle.current) {
-            this.setActiveClock(ClockType.LONG_BREAK);
-            break;
-          }
-          this.setActiveClock(ClockType.WORK);
+  watch(state, () => db.set('ClockStore', state));
+
+  const activeClock = computed<Clock>(() => state.clock.get(state.activeClockType) as Clock);
+
+  const getTime = computed(() => activeClock.value.readableTime);
+
+  const getClockState = computed<ClockState>(() => activeClock.value.state);
+
+  const getSetting = (type: ClockType) => state.durationSettings[type];
+
+  const setClock = (type: ClockType, time: Time) => state.clock.set(type, new Clock(time));
+
+  const restartClock = (clockType: ClockType) => setClock(clockType, getSetting(clockType));
+
+  const restartAllClocks = () => state.clock.forEach((_, clockType) => restartClock(clockType));
+
+  const setActiveClock = (type: ClockType) => (state.activeClockType = type);
+
+  const setDefaultDurationSettings = (newTimer: Time) => {
+    state.durationSettings[newTimer.type] = newTimer;
+    restartClock(state.activeClockType);
+  };
+
+  const setMaxCycles = (newMaxCycles: number) => (state.cycle.max = newMaxCycles);
+
+  const setNextCycle = () => {
+    ++state.cycle.current;
+    state.cycle.current %= state.cycle.max;
+  };
+
+  const changeClock = async () => {
+    const settingsStore = useSettingsStore();
+
+    restartClock(state.activeClockType);
+    activeClock.value.stop();
+    await Haptics.vibrate();
+    settingsStore.playSound();
+    switch (state.activeClockType) {
+      case ClockType.BREAK:
+        if (!state.cycle.current) {
+          setActiveClock(ClockType.LONG_BREAK);
           break;
-        case ClockType.WORK:
-          this.setActiveClock(ClockType.BREAK);
-          break;
-        case ClockType.LONG_BREAK:
-          this.restartAllClocks();
-          this.setNextCycle();
-          this.setActiveClock(ClockType.WORK);
-      }
-      this.activeClock.start();
-    },
-  },
+        }
+        setActiveClock(ClockType.WORK);
+        break;
+      case ClockType.WORK:
+        setActiveClock(ClockType.BREAK);
+        break;
+      case ClockType.LONG_BREAK:
+        restartAllClocks();
+        setNextCycle();
+        setActiveClock(ClockType.WORK);
+    }
+    activeClock.value.start();
+  };
+
+  return {
+    state,
+    activeClock,
+    getTime,
+    getClockState,
+    getSetting,
+    setClock,
+    restartClock,
+    restartAllClocks,
+    setActiveClock,
+    setDefaultDurationSettings,
+    setMaxCycles,
+    setNextCycle,
+    changeClock,
+  };
 });
 
 export default useClockStore;

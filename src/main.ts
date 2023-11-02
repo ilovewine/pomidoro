@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import { createPinia } from 'pinia';
 import { IonicVue } from '@ionic/vue';
+import useDB from './services/useDB';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
@@ -23,10 +24,15 @@ import '@ionic/vue/css/display.css';
 // Custom styles
 import './styles/index.scss';
 
-const pinia = createPinia();
+(async () => {
+  const pinia = createPinia();
 
-const app = createApp(App).use(IonicVue).use(router).use(pinia);
+  const { init } = useDB();
+  await init();
 
-router.isReady().then(() => {
-  app.mount('#app');
-});
+  const app = createApp(App).use(IonicVue).use(router).use(pinia);
+
+  router.isReady().then(() => {
+    app.mount('#app');
+  });
+})();

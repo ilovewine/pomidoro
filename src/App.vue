@@ -25,4 +25,10 @@
 <script setup lang="ts">
 import { IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonTabButton, IonLabel, IonIcon } from '@ionic/vue';
 import { timeOutline, settingsOutline, informationCircleOutline } from 'ionicons/icons';
+import useDB from '@/services/useDB';
+
+const { loadSettings } = useDB();
+
+loadSettings();
 </script>
+./services/useDB
