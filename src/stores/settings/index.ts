@@ -1,4 +1,4 @@
-import SettingsStore from '@/types/settings/SettingsStore.interface';
+import SettingsStoreState from '@/types/settings/SettingsStoreState.interface';
 import { defineStore } from 'pinia';
 // @ts-ignore
 import defaultBeep from '@/resources/audio/defaultBeep.wav';
@@ -13,7 +13,7 @@ const useSettingsStore = defineStore('settings', () => {
   const db = useDB();
   const clockStore = useClockStore();
 
-  const state = reactive<SettingsStore>({
+  const state = reactive<SettingsStoreState>({
     isDarkModeOn: false,
     isCentisecondsOn: false,
     isSoundsOn: true,
@@ -25,7 +25,7 @@ const useSettingsStore = defineStore('settings', () => {
     },
   });
 
-  watch(state, () => db.set('SettingsStore', state));
+  // watch(state, () => db.saveState(state));
 
   const currentColor = computed(() => state.colors[clockStore.state.activeClockType]);
 

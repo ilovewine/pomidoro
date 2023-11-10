@@ -27,8 +27,7 @@ import { IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonTabButton, IonLabel, Io
 import { timeOutline, settingsOutline, informationCircleOutline } from 'ionicons/icons';
 import useDB from '@/services/useDB';
 
-const { loadSettings } = useDB();
+const { loadData } = useDB();
 
-loadSettings();
+loadData();
 </script>
-./services/useDB

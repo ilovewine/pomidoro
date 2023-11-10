@@ -1,6 +1,6 @@
 import ClockState from '@/types/clock/ClockState.type';
 import { ClockType } from '@/types/clock/ClockType';
-import State from '@/types/clock/ClockStore.interface';
+import ClockStoreState from '@/types/clock/ClockStoreState.interface';
 import { defineStore } from 'pinia';
 import Clock from './Clock';
 import Time from './Time';
@@ -24,19 +24,19 @@ const DEFAULT_DURATION: Record<ClockType, Time> = {
   [ClockType.LONG_BREAK]: new Time(0, 3, ClockType.LONG_BREAK),
 };
 
-const createClockMap = (): Map<ClockType, Clock> => {
-  const map = new Map();
-  Object.keys(DEFAULT_DURATION).forEach(clockType => {
-    map.set(clockType, new Clock(DEFAULT_DURATION[clockType as ClockType]));
-  });
-  return map;
+const createClockMap = (): Record<ClockType, Clock> => {
+  const entries = Object.entries(DEFAULT_DURATION) as [ClockType, Time][];
+  return Object.fromEntries(entries.map(([clockType, time]) => [clockType, new Clock(time)])) as Record<
+    ClockType,
+    Clock
+  >;
 };
 
 const useClockStore = defineStore('clock', () => {
   const settingsStore = useSettingsStore();
   const db = useDB();
 
-  const state = reactive<State>({
+  const state = reactive<ClockStoreState>({
     clock: createClockMap(),
     durationSettings: DEFAULT_DURATION,
     activeClockType: ClockType.WORK,
@@ -46,9 +46,11 @@ const useClockStore = defineStore('clock', () => {
     },
   });
 
-  watch(state, () => db.set('ClockStore', state));
+  watch(state, () => {
+    db.saveState(state as ClockStoreState);
+  });
 
-  const activeClock = computed<Clock>(() => state.clock.get(state.activeClockType) as Clock);
+  const activeClock = computed<Clock>(() => state.clock[state.activeClockType] as Clock);
 
   const getTime = computed(() => activeClock.value.readableTime);
 
@@ -56,11 +58,11 @@ const useClockStore = defineStore('clock', () => {
 
   const getSetting = (type: ClockType) => state.durationSettings[type];
 
-  const setClock = (type: ClockType, time: Time) => state.clock.set(type, new Clock(time));
+  const setClock = (type: ClockType, time: Time) => (state.clock[type] = new Clock(time));
 
   const restartClock = (clockType: ClockType) => setClock(clockType, getSetting(clockType));
 
-  const restartAllClocks = () => state.clock.forEach((_, clockType) => restartClock(clockType));
+  const restartAllClocks = () => Object.keys(state.clock).map(clockType => restartClock(clockType as ClockType));
 
   const setActiveClock = (type: ClockType) => (state.activeClockType = type);
 

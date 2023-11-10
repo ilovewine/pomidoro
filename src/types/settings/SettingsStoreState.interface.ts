@@ -1,6 +1,6 @@
 import { ClockType } from '../clock/ClockType';
 
-export default interface SettingsStore {
+export default interface SettingsStoreState {
   isDarkModeOn: boolean;
   isCentisecondsOn: boolean;
   isSoundsOn: boolean;
