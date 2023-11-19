@@ -4,6 +4,8 @@ import useSettingsStore from '../stores/settings';
 import useClockStore from '@/stores/clock';
 import SettingsStoreState from '@/types/settings/SettingsStoreState.interface';
 import ClockStoreState from '@/types/clock/ClockStoreState.interface';
+import stringifyObject from '@/utils/stringifyObject';
+import parseObject from '@/utils/parseObject';
 
 export const CLOCK_STORE_KEY = 'ClockStore';
 export const SETTINGS_STORE_KEY = 'SettingsStore';
@@ -35,10 +37,22 @@ const loadData = async () => {
   if (clock) Object.assign(clockStore.state, clock);
 };
 
+const testData = {
+  a: 1,
+  b: {
+    c: true,
+    d: {
+      e: 3,
+    },
+    f: 'string value',
+  },
+};
+
+console.log('STRINGIFY', stringifyObject(testData));
+console.log('PARSED', parseObject(stringifyObject(testData)));
+
 const saveState = (state: ClockStoreState | SettingsStoreState) => {
-  Object.entries(state).map(async ([key, value]) => {
-    await set(key, JSON.stringify(value));
-  });
+  // console.log(stringifyObject(state));
 };
 
 export default () => ({

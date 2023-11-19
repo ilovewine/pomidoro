@@ -7,8 +7,6 @@ import useClockStore from '@/stores/clock';
 import { computed, reactive, watch } from 'vue';
 import useDB from '@/services/useDB';
 
-const audio = new Audio(defaultBeep);
-
 const useSettingsStore = defineStore('settings', () => {
   const db = useDB();
   const clockStore = useClockStore();
@@ -17,7 +15,7 @@ const useSettingsStore = defineStore('settings', () => {
     isDarkModeOn: false,
     isCentisecondsOn: false,
     isSoundsOn: true,
-    sound: audio,
+    soundSrc: defaultBeep,
     colors: {
       [ClockType.BREAK]: '#e0c111',
       [ClockType.WORK]: '#b90505',
@@ -27,11 +25,13 @@ const useSettingsStore = defineStore('settings', () => {
 
   // watch(state, () => db.saveState(state));
 
+  const audio = computed(() => new Audio(state.soundSrc));
+
   const currentColor = computed(() => state.colors[clockStore.state.activeClockType]);
 
   const playSound = () => {
     if (state.isSoundsOn) {
-      state.sound.play();
+      audio.value.play();
     }
   };
 

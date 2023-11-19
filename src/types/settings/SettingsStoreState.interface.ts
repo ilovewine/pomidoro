@@ -4,6 +4,6 @@ export default interface SettingsStoreState {
   isDarkModeOn: boolean;
   isCentisecondsOn: boolean;
   isSoundsOn: boolean;
-  sound: HTMLAudioElement;
+  soundSrc: string;
   colors: Record<ClockType, string>;
 }
