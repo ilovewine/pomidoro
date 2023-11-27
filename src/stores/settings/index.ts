@@ -27,7 +27,7 @@ const useSettingsStore = defineStore('settings', () => {
 
   const audio = computed(() => new Audio(state.soundSrc));
 
-  const currentColor = computed(() => state.colors[clockStore.state.activeClockType]);
+  const currentColor = computed(() => state.colors[clockStore.state?.activeClockType]);
 
   const playSound = () => {
     if (state.isSoundsOn) {

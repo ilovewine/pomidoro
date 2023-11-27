@@ -6,6 +6,8 @@ import SettingsStoreState from '@/types/settings/SettingsStoreState.interface';
 import ClockStoreState from '@/types/clock/ClockStoreState.interface';
 import stringifyObject from '@/utils/stringifyObject';
 import parseObject from '@/utils/parseObject';
+import Time from '@/stores/clock/Time';
+import { ClockType } from '@/types/clock/ClockType';
 
 export const CLOCK_STORE_KEY = 'ClockStore';
 export const SETTINGS_STORE_KEY = 'SettingsStore';
@@ -30,28 +32,17 @@ const get = async (key: string) => JSON.parse(await db.get(key));
 const loadData = async () => {
   const settingsStore = useSettingsStore();
   const settings = await get(SETTINGS_STORE_KEY);
-  if (settings) Object.assign(settingsStore.state, settings);
+  // console.log('settings', settings);
+  if (settings) Object.assign(settingsStore.state, parseObject(settings));
 
   const clockStore = useClockStore();
   const clock = await get(CLOCK_STORE_KEY);
-  if (clock) Object.assign(clockStore.state, clock);
+  // console.log('clock', clock);
+  if (clock) Object.assign(clockStore.state, parseObject(clock));
 };
-
-const testData = {
-  a: 1,
-  b: {
-    c: true,
-    d: {
-      e: 3,
-    },
-    f: 'string value',
-  },
-};
-
-console.log('STRINGIFY', stringifyObject(testData));
-console.log('PARSED', parseObject(stringifyObject(testData)));
 
 const saveState = (state: ClockStoreState | SettingsStoreState) => {
+  // console.log('STATE', state);
   // console.log(stringifyObject(state));
 };
 

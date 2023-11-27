@@ -1,6 +1,17 @@
 import { flattenValues } from './stringifyObject';
 
-const mergeWithoutLoss = (obj1: Record<string, unknown>, obj2: Record<string, unknown>) => {
+export const convertClassConstructor = (value: NonNullable<unknown>) => {
+  if (typeof value !== 'object') {
+    return value;
+  }
+  if (value.hasOwnProperty('constructor')) {
+    const { constructor, ...args } = value;
+    return constructor(args);
+  }
+  return value;
+};
+
+export const mergeWithoutLoss = (obj1: Record<string, unknown>, obj2: Record<string, unknown>) => {
   const result: Record<string, unknown> = { ...obj1 };
   Object.keys(obj2).forEach(key => {
     if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
@@ -9,26 +20,29 @@ const mergeWithoutLoss = (obj1: Record<string, unknown>, obj2: Record<string, un
       result[key] = obj2[key];
     }
   });
+  return result;
 };
 
-// TODO: connect mergeWithoutLoss with parseObject
-
-const parseEntry = (path: string[], value: flattenValues): Record<string, unknown> => {
+export const parseEntry = (path: string[], value: flattenValues): Record<string, unknown> => {
   if (path.length === 1) {
     return { [path[0]]: value };
-  } else return { [path[0]]: parseEntry(path.slice(1), value) };
+  }
+  return { [path[0]]: parseEntry(path.slice(1), value) };
 };
 
 const parseObject = (data: Record<string, flattenValues>) => {
-  const result = {};
+  const results: Record<string, unknown>[] = [];
 
   Object.entries(data).forEach(([key, value]) => {
     const path = key.split('.');
-    console.log('PATH', path, parseEntry(path, value));
-    Object.assign(result, parseEntry(path, value));
+    results.push(parseEntry(path, value));
   });
 
-  return result;
+  const mergedObject = results.reduce((accumulator, currentValue) => mergeWithoutLoss(accumulator, currentValue), {});
+
+  return Object.fromEntries(
+    Object.entries(mergedObject).map(([key, value]) => [key, convertClassConstructor(value as NonNullable<unknown>)]),
+  );
 };
 
 export default parseObject;
