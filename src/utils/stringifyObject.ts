@@ -1,10 +1,10 @@
 import Clock from '@/stores/clock/Clock';
 import Time from '@/stores/clock/Time';
 
-export type flattenValues = string | number | boolean | Time | Clock;
+export type flattenObjectValue = string | number | boolean | Time | Clock;
 
 const stringifyObject = (data: {}, path = '') => {
-  const result: Record<string, flattenValues> = {};
+  const result: Record<string, flattenObjectValue> = {};
 
   const entries = Object.entries(data);
 
@@ -16,7 +16,7 @@ const stringifyObject = (data: {}, path = '') => {
     } else if (typeof value === 'object') {
       Object.assign(result, stringifyObject(value as Record<string, unknown>, translatedPath));
     } else {
-      result[translatedPath] = value as flattenValues;
+      result[translatedPath] = value as flattenObjectValue;
     }
   }
 

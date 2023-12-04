@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import parseObject, { convertClassConstructor, mergeWithoutLoss, parseEntry } from '@/utils/parseObject';
+import parseObject, {
+  convertClassConstructor,
+  convertArraysInObject,
+  mergeWithoutLoss,
+  parseEntry,
+} from '@/utils/parseObject';
 import { testData } from './stringifyObject.spec';
 import stringifyObject from '@/utils/stringifyObject';
 import Time from '@/stores/clock/Time';
@@ -25,31 +30,88 @@ describe('parseObject', () => {
     });
 
     it("should return the unmodified argument if it isn't an object", () => {
-      const testData = function* () {
-        yield 4;
-        yield null;
-        yield undefined;
-        yield 'test string',
-          yield () => {},
-          yield {
-            a: 1,
-          };
-        yield [1, 2, 3];
-      };
+      const testData = [4, 'test string', () => {}, [1, 2, 3]];
 
-      // expect(convertClassConstructor(testData)).toStrictEqual(testData);
+      testData.map(value => {
+        expect(convertClassConstructor(value as NonNullable<unknown>)).toStrictEqual(value);
+      });
     });
   });
 
-  it('should merge without any data loss', () => {});
+  it('should merge without any data loss', () => {
+    const object1 = {
+      key1: 'value1',
+      key2: 'value2',
+      deepObject: {
+        key1: 'value1',
+        key2: 'value2',
+      },
+    };
 
-  it('should parse entry by destructuring stringified key and providing the result with the value', () => {});
+    const object2 = {
+      key3: 'value3',
+      key4: 'value4',
+      deepObject: {
+        key3: 'value3',
+        key4: 'value4',
+      },
+    };
 
-  it('should parse object', () => {
+    const result = mergeWithoutLoss(object1, object2);
+
+    expect(result).toStrictEqual({
+      ...object1,
+      ...object2,
+      deepObject: {
+        ...object1.deepObject,
+        ...object2.deepObject,
+      },
+    });
+  });
+
+  it('should parse entry by destructuring stringified key and providing the result with the value', () => {
+    const objectKeys = ['a', 'b', 'c'];
+    const value = 'value';
+
+    const result = parseEntry(objectKeys, value);
+
+    expect(result).toStrictEqual({
+      a: {
+        b: {
+          c: value,
+        },
+      },
+    });
+  });
+
+  it('should convert arrays in object', () => {
+    const data = {
+      a: 1,
+      b: { '0': 1, '1': 2, '2': 3 },
+      c: {
+        d: { '0': 1, '1': 2, '2': 3 },
+      },
+    };
+
+    const result = convertArraysInObject(data);
+
+    expect(result).toStrictEqual({
+      a: 1,
+      b: [1, 2, 3],
+      c: {
+        d: [1, 2, 3],
+      },
+    });
+  });
+
+  it.only('should parse object', () => {
     const stringifiedData = stringifyObject(testData);
 
+    console.log('testData', testData);
+    console.log('stringifiedData', stringifiedData);
+
     const result = parseObject(stringifiedData);
-    // console.log(result);
-    // expect(result).toStrictEqual(testData);
+    console.log('result', result);
+    expect(result).toStrictEqual(testData);
   });
 });

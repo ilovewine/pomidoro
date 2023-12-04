@@ -1,4 +1,4 @@
-import { flattenValues } from './stringifyObject';
+import { flattenObjectValue } from './stringifyObject';
 
 export const convertClassConstructor = (value: NonNullable<unknown>) => {
   if (typeof value !== 'object') {
@@ -23,14 +23,27 @@ export const mergeWithoutLoss = (obj1: Record<string, unknown>, obj2: Record<str
   return result;
 };
 
-export const parseEntry = (path: string[], value: flattenValues): Record<string, unknown> => {
+export const parseEntry = (path: string[], value: flattenObjectValue): Record<string, unknown> => {
   if (path.length === 1) {
     return { [path[0]]: value };
   }
   return { [path[0]]: parseEntry(path.slice(1), value) };
 };
 
-const parseObject = (data: Record<string, flattenValues>) => {
+export const convertArraysInObject = (data: Record<string, unknown>): Record<string, unknown> =>
+  Object.fromEntries(
+    Object.entries(data).map(([key, value]) => {
+      if (Object.prototype.toString.call(value) === '[object Object]') {
+        if (Object.keys(value as {}).every(key => typeof +key === 'number' && !isNaN(+key))) {
+          return [key, Object.values(value as {})];
+        }
+        return [key, convertArraysInObject(value as Record<string, unknown>)];
+      }
+      return [key, value];
+    }),
+  );
+
+const parseObject = (data: Record<string, flattenObjectValue>) => {
   const results: Record<string, unknown>[] = [];
 
   Object.entries(data).forEach(([key, value]) => {
@@ -40,8 +53,20 @@ const parseObject = (data: Record<string, flattenValues>) => {
 
   const mergedObject = results.reduce((accumulator, currentValue) => mergeWithoutLoss(accumulator, currentValue), {});
 
+  console.log('mergedObject', mergedObject);
+
+  const objectWithConvertedArrays = convertArraysInObject(mergedObject);
+
   return Object.fromEntries(
-    Object.entries(mergedObject).map(([key, value]) => [key, convertClassConstructor(value as NonNullable<unknown>)]),
+    Object.entries(objectWithConvertedArrays)
+      .map(([key, value]) => {
+        const number = +key;
+        if (typeof number === 'number') {
+        }
+
+        return [key, value];
+      })
+      .map(([key, value]) => [key, convertClassConstructor(value as NonNullable<unknown>)]),
   );
 };
 
