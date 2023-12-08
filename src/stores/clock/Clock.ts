@@ -17,7 +17,7 @@ export default class Clock {
 
   constructor(public time: Time) {
     // de-reference the time object
-    this.time = new Time(time.minutes, time.seconds, time.type);
+    this.time = new Time(time);
   }
 
   clockTick() {

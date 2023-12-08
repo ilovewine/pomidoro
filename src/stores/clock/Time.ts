@@ -8,8 +8,14 @@ export default class Time {
     seconds >= Time.SECONDS_IN_ONE_MINUTE ? Time.SECONDS_IN_ONE_MINUTE - 1 : seconds;
   static now = () => new Date().getTime();
 
-  constructor(public minutes: number, public seconds: number, public type: ClockType) {
+  public minutes: number = 0;
+  public seconds: number = 0;
+  public type: ClockType;
+
+  constructor({ minutes, seconds, type }: { minutes: number; seconds: number; type: ClockType }) {
+    this.minutes = minutes;
     this.seconds = Time.validateSeconds(seconds);
+    this.type = type;
   }
 
   get readableTime() {

@@ -4,8 +4,6 @@ import useSettingsStore from '../stores/settings';
 import useClockStore from '@/stores/clock';
 import SettingsStoreState from '@/types/settings/SettingsStoreState.interface';
 import ClockStoreState from '@/types/clock/ClockStoreState.interface';
-import stringifyObject from '@/utils/stringifyObject';
-import parseObject from '@/utils/parseObject';
 import Time from '@/stores/clock/Time';
 import { ClockType } from '@/types/clock/ClockType';
 
